@@ -1,0 +1,399 @@
+:host {
+  display: block;
+}
+
+ion-content {
+  --background: #f4f6f8;
+}
+
+
+.sub-info {
+  padding: 0 12px;
+  margin-top: 0;
+  font-size: 13px;
+  height: auto;
+  min-height: 32px;
+}
+
+.sub-info ion-chip {
+  --background: #f8fafc;
+  --color: #475569;
+  border: 1px solid #e2e8f0;
+  max-width: 100%;
+  min-height: 34px;
+  margin-inline: 0;
+  border-radius: 999px;
+}
+
+.sub-info ion-chip i {
+  color: #64748b;
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-left: 10px;
+  gap: 2px;
+  min-width: 0;
+}
+
+.labels span {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filter-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  margin-top: 8px;
+}
+
+:host ::ng-deep .filter-actions-row .p-button {
+  border-color: var(--app-primary-color);
+  color: var(--app-primary-color);
+}
+
+:host ::ng-deep .filter-actions-row .p-button:hover,
+:host ::ng-deep .filter-actions-row .p-button:focus {
+  border-color: var(--app-primary-hover);
+  background: var(--app-primary-hover);
+  color: var(--app-primary-font-button);
+}
+
+:host ::ng-deep .filter-actions-row .p-button .p-button-icon {
+  color: var(--app-primary-color);
+}
+
+:host ::ng-deep .filter-actions-row .p-button:hover .p-button-icon,
+:host ::ng-deep .filter-actions-row .p-button:focus .p-button-icon {
+  color: var(--app-primary-font-button);
+}
+
+.filter-toggle {
+  margin-top: 8px;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 0 12px 12px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #324564;
+}
+
+.filter-item.search {
+  flex: 1;
+  min-width: 70%;
+}
+
+.filter-item.search input {
+  width: 100%;
+}
+
+.subtitle-text {
+  display: flex;
+  justify-content: flex-end;
+  margin: 14px 20px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5f332e;
+}
+
+ion-list {
+  background: transparent;
+  padding: 0 8px 16px;
+}
+
+.student-card {
+  --background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  margin: 12px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.student-card:active {
+  transform: scale(0.98);
+}
+
+.student-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  width: 5px;
+  height: 70%;
+  border-radius: 0 6px 6px 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.avatar {
+  display: flex;
+  flex: 0 0 46px;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.student-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-info h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.doc-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.doc-row .document {
+  min-width: 0;
+  color: #6b7280;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.doc-row .perid {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px 4px 6px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #8d8e91;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.perid-label {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #323233;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.perid-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 16px;
+  margin-left: 60px;
+}
+
+.grado-chip,
+.genero-chip,
+.verification {
+  min-height: 32px;
+  margin: 0;
+}
+
+.verification {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  --background: #f8fafc;
+  --color: #475569;
+  --border-color: #dbe3ec;
+  border: 1px solid #dbe3ec;
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.verified-icon {
+  color: #64748b;
+  font-size: 18px;
+}
+
+.grado-chip {
+  --background: #f8fafc;
+  --color: #475569;
+  --border-color: #dbe3ec;
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.genero-chip {
+  --background: #f8fafc;
+  --color: #475569;
+  --border-color: #dbe3ec;
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.grado-chip ion-icon,
+.genero-chip ion-icon {
+  color: currentColor;
+}
+
+.genero-masculino,
+.genero-femenino,
+.genero-otro,
+.genero-default {
+  --background: #f3f4f6;
+  --color: #4b5563;
+  --border-color: #d1d5db;
+}
+
+.color-primero::before,
+.color-primero .avatar { background: #3b82f6; }
+
+.color-segundo::before,
+.color-segundo .avatar { background: #22c55e; }
+
+.color-tercero::before,
+.color-tercero .avatar { background: #f59e0b; }
+
+.color-cuarto::before,
+.color-cuarto .avatar { background: #a855f7; }
+
+.color-quinto::before,
+.color-quinto .avatar { background: #ef4444; }
+
+.color-sexto::before,
+.color-sexto .avatar { background: #0ea5e9; }
+
+.color-septimo::before,
+.color-septimo .avatar { background: #10b981; }
+
+.color-octavo::before,
+.color-octavo .avatar { background: #f97316; }
+
+.color-noveno::before,
+.color-noveno .avatar { background: #6366f1; }
+
+.color-decimo::before,
+.color-decimo .avatar { background: #d946ef; }
+
+.color-once::before,
+.color-once .avatar { background: #14b8a6; }
+
+.color-default::before,
+.color-default .avatar { background: #6b7280; }
+
+.grado-chip.color-primero,
+.grado-chip.color-segundo,
+.grado-chip.color-tercero,
+.grado-chip.color-cuarto,
+.grado-chip.color-quinto,
+.grado-chip.color-sexto,
+.grado-chip.color-septimo,
+.grado-chip.color-octavo,
+.grado-chip.color-noveno,
+.grado-chip.color-decimo,
+.grado-chip.color-once,
+.grado-chip.color-default {
+  --background: #f8fafc;
+  --color: #475569;
+  --border-color: #dbe3ec;
+}
+
+@media (max-width: 420px) {
+  .navigation-header {
+    padding-inline: 10px;
+  }
+
+  .subtitle-text {
+    justify-content: flex-start;
+    margin-inline: 20px;
+  }
+
+  ion-list {
+    padding-inline: 4px;
+  }
+
+  .student-card {
+    margin-inline: 10px;
+  }
+
+  .student-info h2 {
+    font-size: 15px;
+  }
+
+  .doc-row {
+    gap: 4px;
+  }
+
+  .doc-row .document {
+    font-size: 12px;
+  }
+
+  .doc-row .perid {
+    gap: 4px;
+    padding: 3px 7px 3px 4px;
+    font-size: 12px;
+  }
+
+  .perid-label {
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+
+  .meta-chips {
+    margin-left: 60px;
+  }
+
+  .verification {
+    margin-left: 0;
+  }
+}

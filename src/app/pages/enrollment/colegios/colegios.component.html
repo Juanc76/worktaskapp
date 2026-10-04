@@ -1,0 +1,104 @@
+
+
+<p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  <div class="navigation-header">
+    <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+        <p-button 
+        icon="pi pi-times" 
+        severity="secondary"
+        [rounded]="true"
+        [text]="true"
+        [routerLink]="['/main']">  
+      </p-button> 
+</div>
+<div class="filters-container">
+          <ion-select 
+                [(ngModel)]="localidadSeleccionada"  
+                [interfaceOptions]="customModalOptions "
+                fill="outline" 
+                interface="modal" 
+                label="Seleccione Localidad"
+                (ionChange)="onSeleccionarLocalidad()">
+                
+                 <div slot="label"><ion-text color="medium">Seleccione Localidad ....</ion-text></div>
+                  @for (r of localidades; track r) {
+                    <ion-select-option [value]="r">
+                      {{ r.label }}
+                    </ion-select-option>
+                  }
+                </ion-select>
+    <p-button 
+        label="Consultar Estudiantes" 
+        icon="pi pi-search" 
+        class="button-search"
+        (onClick)="consultarEstudiantes()">
+      </p-button>
+      
+  </div>
+
+  <div class="tree-container">
+        <p-treeTable #tt 
+      [value]="treeTableData" 
+      [columns]="cols"  
+      [scrollable]="true" 
+      scrollHeight="400px"
+      [tableStyle]="{'table-layout':'auto'}"
+      [filterMode]="filterMode"  
+      selectionMode="single" 
+      (onNodeSelect)="onNodeSelect($event)" 
+      [(selection)]="selectedNode" 
+      [paginator]="true" 
+      [showCurrentPageReport]="false"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+      [rows]="5" 
+      [rowsPerPageOptions]="[5, 10, 25]"
+      >
+        <ng-template #caption>
+            <div class="flex justify-end items-center">
+                <p-iconfield>
+                    <p-inputicon class="pi pi-search" />
+                    <input type="text" pInputText placeholder="Busqueda Global"   [(ngModel)]="globalFilterValue" (input)="tt.filterGlobal(globalFilterValue, 'contains')" />
+                </p-iconfield>
+            </div>
+        </ng-template>
+    <ng-template #header let-columns>
+        <tr>
+         @for (col of columns; track col) {
+         <th  [style.width]="col.width" [hidden]="!col.visible">{{ col.header }}</th>}
+        </tr>
+        <tr>
+             @for (col of columns; track col; let i = $index) {
+               <th [hidden]="i >= 3">
+                 <div>
+                 @if(col.filter) {  
+                    <input pInputText placeholder="{{ col.header }}" 
+                    [style.width]="'100%'" [hidden]="!col.visible" [name]="col.field" pSize="small" 
+                    type="text"  [(ngModel)]="col.filterValue" (input)="tt.filter(col.filterValue, col.field, 'contains')"/>
+                    
+                 }
+                  </div>
+              </th>
+             }
+                 
+            </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+         @for (col of cols; track col; let i = $index) {
+        <td [style.width]="col.width" [hidden]="!col.visible" >
+         @if(i===0){ <p-treeTableToggler [rowNode]="rowNode" ></p-treeTableToggler>}
+          {{ rowData[col.field] }}
+        </td>
+         }
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="cols.length">No se encontraron colegios.</td>
+      </tr>
+    </ng-template>
+  </p-treeTable>
+
+</div>
+

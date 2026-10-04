@@ -1,0 +1,653 @@
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+@import "primeicons/primeicons.css";
+
+:root {
+  --app-primary-color: #fd6b35;
+  --app-primary-color-rgb: 253, 107, 53;
+  --app-primary-hover: #f8cdbd;
+  --app-primary-activated: #f55102;
+  --app-primary-pending:#ffbaa1;
+  --app-primary-font-button:#535353;
+  --app-primary-font-chip-label:#535353;
+}
+
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+  box-sizing: border-box;
+}
+
+p-breadcrumb .p-breadcrumb {
+  border: 0;
+  border-radius: 0;
+  background: var(--app-primary-color);
+  color: #ffffff;
+}
+
+p-breadcrumb .p-breadcrumb-list,
+p-breadcrumb .p-breadcrumb-item,
+p-breadcrumb .p-breadcrumb-item-link,
+p-breadcrumb .p-breadcrumb-separator,
+p-breadcrumb .p-menuitem-link,
+p-breadcrumb .p-menuitem-text,
+p-breadcrumb .p-menuitem-icon,
+p-breadcrumb .pi {
+  color: #ffffff;
+}
+
+.navigation-header .p-button,
+.navigation-header .p-button.p-button-secondary,
+.navigation-header .p-button.p-button-text,
+.navigation-header .p-button.p-button-outlined {
+  border-color: transparent !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.navigation-header .p-button:hover,
+.navigation-header .p-button:focus,
+.navigation-header .p-button:focus-visible,
+.navigation-header .p-button.p-button-secondary:hover,
+.navigation-header .p-button.p-button-secondary:focus,
+.navigation-header .p-button.p-button-secondary:focus-visible,
+.navigation-header .p-button.p-button-text:hover,
+.navigation-header .p-button.p-button-text:focus,
+.navigation-header .p-button.p-button-text:focus-visible,
+.navigation-header .p-button.p-button-outlined:hover,
+.navigation-header .p-button.p-button-outlined:focus,
+.navigation-header .p-button.p-button-outlined:focus-visible {
+  border-color: transparent !important;
+  background: rgba(255, 255, 255, .16) !important;
+  color: #ffffff !important;
+}
+
+.navigation-header .p-button:active,
+.navigation-header .p-button.p-button-secondary:active,
+.navigation-header .p-button.p-button-text:active,
+.navigation-header .p-button.p-button-outlined:active {
+  border-color: transparent !important;
+  background: rgba(0, 0, 0, .08) !important;
+  color: #ffffff !important;
+}
+
+.navigation-header .p-button:disabled,
+.navigation-header .p-button.p-disabled {
+  border-color: transparent !important;
+  background: transparent !important;
+  color: rgba(255, 255, 255, .45) !important;
+  opacity: 1;
+}
+
+.navigation-header .p-button-icon,
+.navigation-header .pi {
+  color: inherit !important;
+}
+
+.app-filter-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  margin-top: 8px;
+}
+
+.app-filter-actions .p-button {
+  border-color: var(--app-primary-color);
+  color: var(--app-primary-color);
+}
+
+.app-filter-actions .p-button:hover,
+.app-filter-actions .p-button:focus {
+  border-color: var(--app-primary-hover);
+  background: var(--app-primary-hover);
+  color: var(--app-primary-font-button);
+}
+
+.app-filter-actions .p-button .p-button-icon {
+  color: var(--app-primary-color);
+}
+
+.app-filter-actions .p-button:hover .p-button-icon,
+.app-filter-actions .p-button:focus .p-button-icon {
+  color: var(--app-primary-font-button);
+}
+
+.app-filter-actions .filter-toggle {
+  margin-top: 8px;
+}
+
+.app-filters-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: #ffffff;
+}
+
+.app-filters-container .filters {
+  display: flex;
+  flex-direction: row !important;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.app-filters-container .date-filters {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 49%;
+  padding: 8px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  background: #f8f9fa;
+}
+
+.app-filters-container .date-filters label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.app-filters-container .filter-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  color: #324564;
+  font-size: 13px;
+}
+
+.app-filters-container .filter-item.search {
+  flex: 1;
+  min-width: 90%;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.app-filters-container .filter-item.search input {
+  width: 90%;
+  margin-right: 10px;
+}
+
+.app-filters-container .font-label {
+  display: block !important;
+  margin-bottom: 2px !important;
+  color: var(--app-primary-color) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-align: left;
+}
+
+.app-filters-container .date-filters p-datepicker {
+  width: 100%;
+}
+
+.app-filters-container .date-filters p-datepicker .p-inputtext {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+.app-filters-container .filter-info {
+  width: 100%;
+  height: auto;
+  margin-top: 5px;
+  margin-left: auto;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: #f8f9fa;
+  text-align: right;
+}
+
+body, html, app-root, .ion-app, .ion-page {
+  background: transparent !important;
+}
+
+// Estilos para el ion-select
+ion-select {
+  --placeholder-color: #000000  !important;
+  --placeholder-opacity: 1 !important;
+  --border-color: #d1d5db !important;
+  
+   color: #324564 !important;
+  font-size: 15px;
+  max-width: 95%;
+  align-content: center;
+ }
+ 
+ ion-select::part(label) {
+  --highlight-color-focused: #000000 !important;
+  color: #000000 !important;
+  opacity: 1 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+ 
+ ion-select::part(icon) {
+   color: #000000 !important;
+  font-size: 24px !important;
+}
+
+ ion-select::part(text) {
+  white-space: normal !important; 
+  overflow: visible;
+ }
+
+ ion-select.ion-focused {
+  --highlight-color-focused: #000000 !important;
+  --border-color-focused: #000000 !important;
+}
+
+
+// Estilos para el ion select modal personalizado
+.custom-select-modal {
+  --background: #ffffff;
+  --color: #000000;
+   
+  ion-item.item-radio-checked {
+    --background:#f2f2f2 !important;
+    --background-focused: #d8d6d6 !important; 
+    
+    /* Aseguramos que el texto y el check sigan siendo visibles */
+    color: #8a3b22 !important; 
+    font-weight: bold;
+    border-left: 4px solid #8a3b22 !important;
+   
+  }
+
+   ion-radio {
+    --color-checked: #8a3b22;
+  }
+
+  ion-toolbar {
+    --background: #ffffff;
+    --color: #324564; 
+   
+  }
+
+  ion-content {
+    --background: #ffffff;
+    ion-list {
+      background: #ffffff !important;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  ion-item {
+    --background: #ffffff;
+    --color: #000000;
+  }
+}
+
+ion-content {
+  --background: #f3f3f3;
+  --color: #000000;
+}
+
+ion-list {
+  background: transparent !important;
+  --background: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Opciones del menú lateral del componente MainMenu */
+ion-menu.main-menu ion-item {
+  --background: #ffffff;
+  --background-hover: #ffffff;
+  --background-focused: #ffffff;
+  --color: #000000;
+}
+
+ion-header {
+    box-shadow: none !important;
+     border: none !important;
+  --background: #ffffff;
+  --color: #000000;
+  padding-left: 5px;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  min-height: 0;
+}
+
+
+/* Estilos para mostrar la camara */
+body.camera-open,
+body.camera-open .ion-app,
+body.camera-open .ion-page {
+  background: transparent !important;
+}
+
+body.camera-open ion-content {
+  --background: transparent !important;
+}
+
+body.camera-open ion-content::part(background) {
+  background: transparent !important;
+}
+
+/* Toast de errores dentro del modal de cámara (PrimeNG) */
+.p-toast.camera-toast {
+  z-index: 200000 !important;
+}
+
+.p-toast-top-center.camera-toast {
+  top: calc(env(safe-area-inset-top, 0px) + 56px) !important;
+}
+
+
+/*Contenedor de encabezado*/
+/*Utilizado para la barra de navegacion que se encuentra en la parte superior de la aplicacion*/
+.navigation-header {
+  display: flex; 
+  height: auto;
+  width: 100%;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+  min-height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  font-size: small;
+  background: var(--app-primary-color);
+}
+
+.navigation-header p-breadcrumb {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.navigation-header p-breadcrumb .p-breadcrumb {
+  width: 100%;
+}
+
+.navigation-header p-button {
+  display: flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.navigation-header p-button .p-button {
+  border-radius: 0 0 20px 0;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+/* Contenedor de desplazamiento */
+.scroll-content {
+  width: 100%;
+  height: 100%; 
+  overflow-y: auto;
+  display: flex;
+  justify-content:  flex-start;
+  flex-direction: column;
+  gap: 2px;
+  background:  #ffffff;
+ 
+}
+
+
+/* Estilos globales para el paginador de las tablas */
+.p-paginator {
+  padding: 0.5rem 0.25rem !important;
+  background: #f3efef !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.25rem !important;
+}
+
+.p-paginator .p-paginator-pages {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.125rem !important;
+  flex-wrap: wrap !important;
+}
+
+.p-paginator .p-paginator-page {
+  min-width: 2rem !important;
+  height: 2rem !important;
+  padding: 0.25rem !important;
+  font-size: 0.875rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  min-width: 2rem !important;
+  height: 2rem !important;
+  padding: 0.25rem !important;
+  font-size: 0.875rem !important;
+}
+
+/* Estilos globales para tablas PrimeNG */
+.p-datatable {
+  overflow: visible !important;
+}
+
+.p-datatable .p-datatable-wrapper {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+}
+
+.p-datatable-table {
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+
+.p-datatable-thead {
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(229, 160, 160, 0.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;
+}
+
+/* Estilo para el encabezado de las tablas */
+.p-datatable-thead > tr > th {
+  padding: 1rem !important;
+  text-align: left !important;
+  font-size: 12px !important;
+  font-family: 'Segoe UI' !important;
+}
+
+/* Estilo para las filas del cuerpo de la tabla */
+.p-datatable-tbody > tr {
+  background-color: #f8f9fa !important;
+  transition: background-color 0.2s ease-in-out !important;
+}
+
+/* Estilo para filas pares (efecto de cebra) */
+.p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f0eded !important;
+}
+
+/* Estilo al pasar el mouse sobre una fila */
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #a3f5b4 !important;
+  cursor: pointer !important;
+}
+
+/* Estilo para las celdas del cuerpo de la tabla */
+.p-datatable-tbody > tr > td {
+  padding: 0.2rem !important;
+  vertical-align: middle !important;
+  text-align: left !important;
+  color: #464545 !important;
+  font-size: 12px !important;
+  font-family: 'Segoe UI' !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.p-datatable-thead > tr > th .p-column-filter .p-inputtext {
+  width: 100%; /* Ajusta el ancho para que coincida con la columna */
+  height: 25px; /* Cambia la altura del filtro */
+  font-size: 11px; /* Ajusta el tamaño de la fuente */
+}
+
+.p-datatable-thead > tr > th .p-column-filter .p-inputtext:hover {
+  border-color: #ad2715; /* Cambia el color del borde al enfocar */
+  outline: none; /* Elimina el contorno predeterminado */
+}
+
+.p-datatable-thead > tr > th .p-column-filter .p-button {
+  width: 16px; /* Ajusta el ancho para que coincida con la columna */
+  height: 16px; /* Cambia la altura del filtro */
+  margin-left: -8px; /* Ajusta el margen izquierdo para alinear con la columna */
+
+ }
+
+ @media (max-width: 768px) {
+  /* Paginador más compacto en móvil */
+
+
+  /*Utiliado para la barra de navegacion que se encuentra en la parte superior de la aplicacion*/
+  .navigation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 0;
+    padding: 0 10px;
+  }
+
+  .p-paginator {
+    padding: 0.25rem 0.125rem !important;
+    gap: 0.125rem !important;
+  }
+
+  .p-paginator .p-paginator-page {
+    min-width: 1.75rem !important;
+    height: 1.75rem !important;
+    padding: 0.125rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .p-paginator .p-paginator-first,
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next,
+  .p-paginator .p-paginator-last {
+    min-width: 1.75rem !important;
+    height: 1.75rem !important;
+    padding: 0.125rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .p-paginator .p-paginator-pages {
+    gap: 0.0625rem !important;
+  }
+
+  /* Estilos de tabla más compactos para móvil */
+  .p-datatable-thead > tr > th {
+    padding: 0.5rem !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    font-family: 'Segoe UI' !important;
+  }
+
+  .p-datatable-tbody > tr > td {
+    padding: 0.25rem !important;
+    vertical-align: middle !important;
+    text-align: left !important;
+    color: #464545 !important;
+    font-size: 12px !important;
+    font-family: 'Segoe UI' !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+.custom-alert-class {
+  --background: #ffffff;
+  --color: var(--app-primary-font-button);
+  --ion-color-primary: var(--app-primary-color);
+
+  .alert-button {
+    color: var(--app-primary-color) !important;
+    font-weight: 700;
+  }
+
+  .alert-button-role-cancel {
+    color: var(--app-primary-color) !important;
+  }
+
+  .alert-radio-icon {
+    border-color: var(--app-primary-color) !important;
+  }
+
+  .alert-radio-inner {
+    background-color: var(--app-primary-color) !important;
+  }
+
+  .alert-radio-button[aria-checked="true"] .alert-radio-label {
+    color: var(--app-primary-color) !important;
+    font-weight: 700;
+  }
+
+  .alert-radio-button[aria-checked="true"] .alert-radio-icon {
+    border-color: var(--app-primary-color) !important;
+  }
+
+  .alert-radio-label {
+    color: #000000;
+  }
+
+  .alert-title {
+    color: #000000;
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-container h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-container p-button {
+  margin-left: auto;
+}

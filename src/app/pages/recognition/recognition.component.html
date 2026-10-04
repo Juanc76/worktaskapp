@@ -1,0 +1,67 @@
+
+<p-toast></p-toast>
+
+      <div class="navigation-header">
+        <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+        <div class="header-actions">
+          <p-button
+            class="add-button"
+            icon="pi pi-plus-circle"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+           >
+          </p-button>
+          <p-button
+            icon="pi pi-times"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+            [routerLink]="['/main']">
+          </p-button>
+        </div>
+      </div>
+<div class="recognition-container" [class.camera-active]="cameraActive && !imageCaptured">
+  <h2>RECONOCIMIENTO FACIAL</h2>
+  
+  <p-toast></p-toast>
+  <!-- Área de medios para la cámara o la imagen capturada -->
+  <div class="media-area" [class.camera-active]="cameraActive && !imageCaptured">
+        <img *ngIf="imageCaptured && capturedImagePreview" [src]="capturedImagePreview" class="imagen-preview" alt="Imagen capturada" />
+        <div *ngIf="!imageCaptured" class="camera-hint">
+          <span *ngIf="faceDetectedInRealTime">Rostro detectado</span>
+          <span *ngIf="!faceDetectedInRealTime">Ubica un rostro frente a la camara</span>
+        </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="actions">
+  <!-- Botón para capturar imagen -->
+   @if(!imageCaptured){  
+  <p-button label="Capturar Imagen" icon="pi pi-camera" (onClick)="captureImage()"></p-button>
+   }
+  @if(imageCaptured){
+  <ng-container>
+    <!-- Botón para tomar otra foto -->
+    <p-button label="Tomar otra foto" icon="pi pi-refresh" (onClick)="retakePhoto()" [hidden]="!imageCaptured"></p-button>
+    
+    <!-- Botón para detectar rostros -->
+    <p-button label="Detectar Rostros" icon="pi pi-search" (onClick)="uploadImage()" [disabled]="!capturedImage" class="btn-detect"></p-button>
+    
+    <!-- Botón para reconocer rostro -->
+    <p-button label="Reconocer API" icon="pi pi-cloud" (onClick)="recognitionFace()" [disabled]="!capturedImage" class="btn-recognize-api"></p-button>
+    
+    <p-button label="Reconocer Local" icon="pi pi-user" (onClick)="recognitionLocalFace()" [disabled]="!capturedImage" class="btn-recognize"></p-button>
+  </ng-container>
+  }
+</div>
+
+  <!-- Resultados y mensajes -->
+  <div class="results">
+    <div *ngIf ="msgRecognition" class="toast toast-info">
+      <h3>Reconocimiento:</h3>
+      <pre>{{ msgRecognition }}</pre>
+    </div>
+  </div>
+</div>
+

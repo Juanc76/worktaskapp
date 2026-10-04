@@ -1,0 +1,63 @@
+
+  <p-toast></p-toast>
+       <p-confirmDialog></p-confirmDialog>
+  <div class="navigation-header" *ngIf="!inModal">
+    <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+    <p-button 
+      icon="pi pi-times" 
+      severity="secondary"
+      [rounded]="true"
+      [text]="true"
+      [routerLink]="['/registroServicioPME']">  
+    </p-button> 
+  </div>
+
+ <ion-content class="page-content">
+  <ion-card class="benef-card" *ngFor="let beneficiario of beneficiarios">
+    <ion-card-content>
+      <div class="benef-header">
+        <ion-chip outline>
+          <span>PER ID · {{ beneficiario.perID }}</span>
+        </ion-chip>
+        <ion-text class="doc">
+          {{ beneficiario.numeroDocumento }}
+        </ion-text>
+      </div>
+
+      <div class="benef-body">
+        <div class="row">
+          <div class="field">
+            <span class="label">Primer Nombre</span>
+            <span class="value">{{ beneficiario.nombre1 }}</span>
+          </div>
+          <div class="field">
+            <span class="label">Segundo Nombre</span>
+            <span class="value">{{ beneficiario.nombre2 }}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <span class="label">Primer Apellido</span>
+            <span class="value">{{ beneficiario.apellido1 }}</span>
+          </div>
+          <div class="field">
+            <span class="label">Segundo Apellido</span>
+            <span class="value">{{ beneficiario.apellido2 }}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <span class="label">Grado</span>
+            <span class="value">{{ beneficiario.grado }}</span>
+          </div>
+          <div class="field">
+            <span class="label">Jornada Educativa</span>
+            <span class="value">{{ beneficiario.jornadaEducativa }}</span>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,111 @@
+<div class="scroll-content">
+  <ion-modal
+    [isOpen]="true"
+   
+    backdropDismiss="false"
+
+    class="ion-modal-registro-trazado-ruta">
+    <ng-template>
+      <ion-header  translucent="true">
+        <ion-toolbar >
+          <ion-title>Registro Trazado Ruta Escolar</ion-title>
+
+          <ion-buttons slot="end">
+            <ion-button (click)=" minimize()">
+            Salir</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <div class="content-wrapper">
+        <div #mapCanvas class="mapCanvas"></div>
+
+        <div class="sheet-content" [class.collapsed]="isSheetCollapsed">
+          <div class="sheet-handle" (click)="toggleSheet()">
+            <div class="handle-bar"></div>
+          </div>
+          
+          <!-- PRE TRACKING -->
+        @if (!trackingState?.active) {
+          <div class="form-inicial">
+           <!--  <ion-list style="background-color: rgb(213, 213, 214);">
+              <ion-item  >-->
+                <ion-select 
+                [(ngModel)]="selectedRuta"  
+                [interfaceOptions]="customActionSheetOptions" 
+                fill="outline" 
+                shape="round" 
+                placeholder="Seleccione Ruta">
+                  @for (r of rutas; track r) {
+                    <ion-select-option [value]="r">
+                      {{ r.label }}
+                    </ion-select-option>
+                  }
+                </ion-select>
+              <!--  </ion-item>
+              <ion-item>-->
+                <ion-select 
+                [(ngModel)]="selectedRecorrido" 
+                [interfaceOptions]="customActionSheetOptions" 
+                 fill="outline" 
+                shape="round" 
+                 placeholder="Seleccione Recorrido" >
+                  <ion-select-option value="IDA" >Ida</ion-select-option>
+                  <ion-select-option value="REGRESO" >Regreso</ion-select-option>
+                </ion-select>
+              <!--  </ion-item>-->
+              <div class="btn-center">
+                <ion-button expand="block" shape="round" (click)="startTrazado()" class="btn-iniciar">
+                  <span class="btn-iniciar-content">
+                    <span class="btn-iniciar-icon" aria-hidden="true">
+                      <i class="pi pi-play"></i>
+                    </span>
+                    <span>Iniciar Ruta</span>
+                  </span>
+                </ion-button>
+              </div>
+            <!-- </ion-list>-->
+          </div>
+        }
+        <!-- TRACKING ACTIVO -->
+        @if (trackingState?.active) {
+          <div>
+            <h3>Ruta en progreso</h3>
+            <div class="info-trazado">
+              <p><strong>Ruta :</strong>{{ trackingState?.trazado?.rutaEscolar}} </p>
+              <p><strong>Recorrido :</strong>{{ trackingState?.trazado?.recorrido }}</p>
+            </div>
+            <div class="titulo"><p>En Curso...</p></div>
+            <div class="datos-trazado">
+              <div class="info-distancia">
+                <p style="font-size: 30px; font-weight: bold">{{ formatDistance(trackingState?.distance!) }}</p>
+                <strong style="font-size: 11px;">Distancia (km)</strong>
+              </div>
+              <div class="info-duracion">
+                <p style="font-size: 30px; font-weight: bold">{{ formatoDuration(trackingState?.duration!) }}</p>
+                <strong style="font-size: 11px;">Duración</strong>
+              </div>
+              <div class="info-velocidad">
+                <p style="font-size: 30px; font-weight: bold">{{ trackingState?.speedMedia!}}</p>
+                <strong style="font-size: 11px;">Veloc. Media(km/h)</strong>
+              </div>
+            </div>
+            <div class="btn-center">
+              <ion-button expand="block" color="warning" (click)="pauseTrazado()" >
+                {{ isPaused ? 'Reanudar' : 'Pausar' }}
+              </ion-button>
+              <ion-button expand="block" color="dark" (click)="stopTrazado()">
+                Finalizar
+              </ion-button>
+            </div>
+          </div>
+          
+        }
+       
+      </div>
+    </div>
+    </ng-template>
+
+  </ion-modal>
+
+</div>

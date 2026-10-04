@@ -1,0 +1,293 @@
+<p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+    <div class="navigation-header">
+        <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+        <div class="header-actions">
+          <p-button
+            icon="pi pi-plus-circle"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+            [disabled]="isSyncing"
+            (onClick)="showFormModal = true">
+          </p-button>
+          <p-button
+            icon="pi pi-sync"
+            severity="secondary"
+            [rounded]="true"
+            [outlined]="true"
+            [disabled]="isSyncing"
+            (onClick)="syncAll()">
+          </p-button>
+          <p-button
+            icon="pi pi-times"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+            [routerLink]="['/main']">
+          </p-button>
+        </div>
+      </div>
+<ion-header>
+    <ion-toolbar>
+    
+
+
+<ion-modal [isOpen]="showFormModal" cssClass="ion-modal-registro-entrega-pae">
+    <ng-template>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Crear Registro para Documentar</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="showFormModal = false">Salir</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="modal-content">
+    <div class="modal-form-container">
+      <form>
+        <ion-select
+          [(ngModel)]="selectedColegio"
+          name="colegio"
+          [interfaceOptions]="customModalOptionsC"
+          fill="outline"
+          label-placement="stacked"
+          label = "Seleccione Colegio"
+          interface="modal"
+          (ionChange)="onColegioChange()">
+             @for (c of colegios; track c) {
+            <ion-select-option [value]="c">
+              {{ c.label }}
+            </ion-select-option>
+          }
+        </ion-select>
+        <ion-select
+          class="modal-select"
+          [(ngModel)]="selectedSede"
+          name="sede"
+          [interfaceOptions]="customModalOptionsS"
+          fill="outline"
+          label-placement="stacked"
+          label = "Seleccione Sede"
+          interface="modal"
+          (ionChange)="onSedeChange()"
+          [disabled]="!selectedColegio">
+            @for (s of sedes; track s) {
+            <ion-select-option [value]="s">
+              {{ s.label }}
+            </ion-select-option>
+          }
+        </ion-select>
+        <ion-select
+         
+          [(ngModel)]="selectedSitioEntrega"
+          name="sitioEntrega"
+          [interfaceOptions]="customModalOptionsE"
+          fill="outline"
+          label-placement="stacked"
+          label="Seleccione Sitio de Entrega"
+          interface="modal"
+          [disabled]="!selectedSede">
+          @for (s of sitiosEntrega; track s) {
+            <ion-select-option [value]="s">
+              {{ s.label }}
+            </ion-select-option>
+          }
+        </ion-select>
+        
+        <div class="modal-actions">
+          <p-button
+            label="Guardar"
+            icon="pi pi-check"
+            size="large"
+            iconPos="right"
+            (onClick)="guardarRegistro()"
+            [disabled]="!selectedColegio || !selectedSede || !selectedSitioEntrega">
+          </p-button>
+        </div>
+      </form>
+    </div>
+  </ion-content>
+  </ng-template>
+   </ion-modal>
+  
+      <div class="filter-actions-row app-filter-actions" >
+      <div class="filter-toggle">
+        <p-button
+          icon="pi pi-sliders-h"
+          label="Filtros"
+          [outlined]="true"
+          (click)="showFilters = !showFilters">
+        </p-button>
+      </div>
+
+      <div class="filter-clear" *ngIf="showFilters">
+          <p-button
+            label="Limpiar"
+            [outlined]="true"
+            icon="pi pi-filter-slash"
+            (click)="resetFiltros()" />
+      </div>
+    </div>
+</ion-toolbar>
+</ion-header>
+<div class="app-filters-container" *ngIf="showFilters">
+      <div class="filter-item search">
+        <p-iconfield iconPosition="left">
+          <p-inputicon class="pi pi-search" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Búsqueda Global"
+            [(ngModel)]="globalFilterValue"
+            (input)="onSearchChange()"
+          />
+        </p-iconfield>
+      </div>
+  <div class="filters">
+      <!-- Filtro por rango de fechas -->
+      <div class="date-filters">
+      <label class="font-label"> Desde </label>
+      <p-datepicker
+        [(ngModel)]="filterStartDate"
+        name="startDate"
+         placeholder="aaaa-mm-dd"
+        [showIcon]="true"
+        size="small"
+        dateFormat="yy-mm-dd"
+        readonlyInput="true">
+      </p-datepicker>
+      </div>
+      <div class="date-filters">
+      
+       <label class="font-label"> Hasta </label>
+      <p-datepicker
+        [(ngModel)]="filterEndDate"
+        name="endDate"
+        placeholder="aaaa-mm-dd"
+        [showIcon]="true"
+        size="small"
+        dateFormat="yy-mm-dd"
+        readonlyInput="true"
+        (onSelect)="filterRegistros()">
+      </p-datepicker>
+       </div>
+      
+    </div>
+      
+</div>
+<div class="sync-status" *ngIf="isSyncing">
+  <p-progressBar
+    *ngIf="useIndeterminate"
+    mode="indeterminate">
+  </p-progressBar>
+
+  <div *ngIf="!useIndeterminate">
+    <p-progressBar
+      [value]="(totalToSync ? (syncedCount / totalToSync) * 100 : 0) | number:'1.0-0'"
+      [showValue]="true">
+    </p-progressBar>
+    <div class="sync-status-text">
+      Subiendo fotos... {{ syncedCount | number:'1.0-0' }}/{{ totalToSync | number:'1.0-0' }}
+    </div>
+  </div>
+</div>
+<div class="subtitle-text">
+        <span  *ngIf="registros && registros.length > 0">
+          Mostrando {{ registros.length }} Registros
+        </span>
+   </div>
+<ion-content class="page-content">
+  
+   
+              <ion-card
+          class="entrega-card"
+          [ngClass]="{'sync-ok': registro.syncedDB, 'sync-pending': !registro.syncedDB}"
+          *ngFor="let registro of registros; trackBy: trackByRegistro"
+        >
+
+          <ion-card-content>
+
+            <!-- HEADER -->
+         <div class="card-header">
+
+              <ion-chip outline class="chip chip-fecha">
+                <i class="pi pi-calendar"></i>
+                Fecha Suministro · {{ registro.Fecha }}
+              </ion-chip>
+
+              <div class="registro-id">
+                Registro · {{ registro.idRegistroEntrega }} 
+              </div>
+
+            </div>
+
+            <!-- COLEGIO / SEDE -->
+            <div class="info-grid">
+              <div class="info-block colegio">
+                <div class="info-line">
+                  <i class="pi pi-building"></i>
+                  <span class="name">{{ registro.Colegio }}</span>
+                </div>
+
+                <div class="info-sub">
+                  DANE · {{ registro.daneColegio }}
+                </div>
+              </div>
+
+              <div class="info-block sede">
+                <div class="info-line">
+                  <i class="pi pi-building-columns"></i>
+                  <span class="name">Sede {{ registro.Sede }}</span>
+                </div>
+
+                <div class="info-sub">
+                  DANE · {{ registro.daneSede }}
+                </div>
+              </div>
+            </div>
+
+            <!-- CHIPS -->
+            <div class="chips">
+
+              <ion-chip outline class="chip chip-sitio">
+                <i class="pi pi-box"></i>
+                  Sitio de Entrega N° ·  {{ registro.idSitioEntrega }}
+              </ion-chip>
+
+              <ion-chip outline class="chip  chip-proyecto">
+                <i class="pi pi-briefcase"></i>
+                {{ registro.DescripcionProyecto }}
+              </ion-chip>
+
+            </div>
+
+            <!-- SYNC + LINK -->
+            <div class="sync-row">
+              <div class="sync" *ngIf="registro.syncedDB">
+                <i class="pi pi-sync" style="color: #70b410"></i>
+                Sincronizado
+                <span *ngIf="registro.syncDBDate">
+                  · {{ registro.syncDBDate | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+              </div>
+
+              <a
+                class="ver-registro"
+                [routerLink]="['photoRecordPae', registro.idRegistroEntrega]">
+                Ver Registro Fotografico
+              </a>
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
+   
+
+     <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando registros..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
+</ion-content>

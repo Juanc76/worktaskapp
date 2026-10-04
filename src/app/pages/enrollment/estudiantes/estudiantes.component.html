@@ -1,0 +1,168 @@
+    <div class="navigation-header">
+      <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+      <p-button
+        icon="pi pi-times"
+        severity="secondary"
+        [rounded]="true"
+        [text]="true"
+        [routerLink]="['/enrollment']">
+      </p-button>
+    </div>
+<ion-header translucent="true">
+  <ion-toolbar>
+
+
+    <div class="sub-info">
+      <ion-chip color="secondary">
+        <i class="pi pi-building-columns"></i>
+        <ion-label class="labels">
+          <span *ngIf="colegio">{{ colegio }}</span>
+          <span *ngIf="sede">{{ sede }}</span>
+          <span *ngIf="jornada">{{ jornada }}</span>
+        </ion-label>
+      </ion-chip>
+    </div>
+
+    <div class="filter-actions-row">
+      <div class="filter-toggle">
+        <p-button
+          icon="pi pi-sliders-h"
+          label="Filtros"
+          [outlined]="true"
+          (click)="showFilters = !showFilters">
+        </p-button>
+      </div>
+
+      <div class="filter-clear" *ngIf="showFilters && estudiantes.length > 0">
+        <p-button
+          label="Limpiar"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+          (click)="clear()" />
+      </div>
+    </div>
+
+    <div class="filter-container" *ngIf="showFilters && estudiantes.length > 0">
+      <div class="filter-item">
+        <ion-select
+          label="Ordenar por:"
+          label-placement="fixed"
+          fill="outline"
+          shape="round"
+          oktext="Aceptar"
+          canceltext="Cancelar"
+          [interfaceOptions]="customAlertOptions"
+          [(ngModel)]="sortField"
+          (ionChange)="filterEstudiantes()">
+          <ion-select-option value="">Seleccionar...</ion-select-option>
+          <ion-select-option value="apellido1">Apellido 1</ion-select-option>
+          <ion-select-option value="apellido2">Apellido 2</ion-select-option>
+          <ion-select-option value="nombre1">Nombre 1</ion-select-option>
+          <ion-select-option value="numeroDocumento">Documento</ion-select-option>
+          <ion-select-option value="perID">PerID</ion-select-option>
+          <ion-select-option value="grado">Grado</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="filter-item">
+        <ion-select
+          label="Filtrar por grado:"
+          label-placement="fixed"
+          fill="outline"
+          shape="round"
+          oktext="Aceptar"
+          canceltext="Cancelar"
+          [interfaceOptions]="customModalOptions"
+          interface="modal"
+          [(ngModel)]="selectedGrado"
+          (ionChange)="filterEstudiantes()">
+          <ion-select-option value="">Todos</ion-select-option>
+          <ion-select-option *ngFor="let grado of grados" [value]="grado">
+            {{ grado }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="filter-item search">
+        <p-iconfield iconPosition="left">
+          <p-inputicon class="pi pi-search" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Búsqueda global"
+            [(ngModel)]="globalFilterValue"
+            (input)="filterEstudiantes()" />
+        </p-iconfield>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="subtitle-text" *ngIf="estudiantes.length > 0">
+    <span>{{ filteredEstudiantes.length }} registros encontrados</span>
+  </div>
+
+  <ion-list lines="none">
+    <ion-card
+      class="student-card"
+      *ngFor="let estudiante of displayedEstudiantes"
+      role="button"
+      tabindex="0"
+      (click)="verDetalleEstudiante(estudiante)"
+      (keydown.enter)="verDetalleEstudiante(estudiante)"
+      (keydown.space)="verDetalleEstudiante(estudiante)"
+      [ngClass]="getColorClass(estudiante.grado)">
+
+      <ion-card-content>
+        <div class="card-header">
+          <div class="avatar" [ngClass]="getColorClass(estudiante.grado)">
+            {{ getIniciales(estudiante) }}
+          </div>
+
+          <div class="student-info">
+            <h2>
+              {{ estudiante.nombre1 }} {{ estudiante.nombre2 }} {{ estudiante.apellido1 }} {{ estudiante.apellido2 }}
+            </h2>
+
+            <div class="doc-row">
+              <span class="document">Documento N°: {{ estudiante.numeroDocumento }}</span>
+              <span class="perid">
+                <span class="perid-label">PerID</span>
+                <span class="perid-value">{{ estudiante.perID }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="meta-chips">
+          <ion-chip class="grado-chip" [ngClass]="getColorClass(estudiante.grado)">
+            <ion-icon name="school-outline"></ion-icon>
+            <ion-label>{{ estudiante.grado }}</ion-label>
+          </ion-chip>
+
+          <ion-chip class="genero-chip" [ngClass]="getGeneroClass(estudiante.genero)">
+            <ion-icon
+              [name]="normalizeKey(estudiante.genero) === 'f' || normalizeKey(estudiante.genero) === 'femenino' || normalizeKey(estudiante.genero) === 'mujer'
+                ? 'female-outline'
+                : 'male-outline'">
+            </ion-icon>
+            <ion-label>{{ estudiante.genero }}</ion-label>
+          </ion-chip>
+
+          <ion-chip class="verification" *ngIf="estudiante.idPersonDirectory">
+            <ion-icon
+              name="checkmark-circle"
+              class="verified-icon">
+            </ion-icon>
+            <ion-label>Enrolado</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

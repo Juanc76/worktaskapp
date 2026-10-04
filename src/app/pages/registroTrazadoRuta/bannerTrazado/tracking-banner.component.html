@@ -1,0 +1,15 @@
+@if (isTracking$ | async) {
+  <div class="tracking-banner">
+    <div class="button-wrapper">
+      <p-button
+        type="button"
+        [rounded]="true"
+        icon="pi pi-car custom-icon"
+        severity="warn"
+        size="small"
+        (click)="goToTracking()">
+      </p-button>
+    </div>
+    <p class="button-text">Registrando...</p>
+  </div>
+}

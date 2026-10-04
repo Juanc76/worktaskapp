@@ -1,0 +1,131 @@
+<app-header-institucional></app-header-institucional>
+<p-toast position="top-right"></p-toast>
+
+<ion-content class="login-content">
+  <main class="login-shell">
+    <section class="login-panel" aria-label="Inicio de sesion">
+      <ion-card class="login-card">
+        <ion-card-content>
+          <form *ngIf="rolesDisponibles.length === 0" (ngSubmit)="useInstitutionalEmail ? login365() : loginLocal()">
+            <div class="login-heading">
+              <h1>Inicio de sesion</h1>
+              <p>Ingrese con su correo personal o institucional.</p>
+            </div>
+
+            <div class="auth-switch">
+              <p-toggleswitch
+                inputId="institutional-toggle"
+                [(ngModel)]="useInstitutionalEmail"
+                [ngModelOptions]="{standalone: true}">
+              </p-toggleswitch>
+              <label for="institutional-toggle">
+                {{ useInstitutionalEmail ? 'Correo institucional' : 'Correo personal' }}
+              </label>
+            </div>
+
+            <ng-container *ngIf="!useInstitutionalEmail; else institutionalLogin">
+              <ion-item class="form-field" lines="none">
+                <ion-icon slot="start" name="mail-outline" aria-hidden="true"></ion-icon>
+                <ion-input
+                  label="Correo"
+                  labelPlacement="floating"
+                  autocomplete="username"
+                  type="email"
+                  required
+                  [(ngModel)]="login"
+                  name="login">
+                </ion-input>
+              </ion-item>
+
+              <ion-item class="form-field" lines="none">
+                <ion-icon slot="start" name="lock-closed-outline" aria-hidden="true"></ion-icon>
+                <ion-input
+                  label="Contrasena"
+                  labelPlacement="floating"
+                  autocomplete="current-password"
+                  type="password"
+                  required
+                  [(ngModel)]="password"
+                  name="password">
+                </ion-input>
+              </ion-item>
+            </ng-container>
+
+            <ng-template #institutionalLogin>
+              <div class="institutional-box">
+                <ion-icon name="log-in-outline" aria-hidden="true"></ion-icon>
+                <div>
+                  <strong>Autenticacion Microsoft</strong>
+                  <span>Continuara con la cuenta institucional autorizada.</span>
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="actions-row">
+              <ion-button
+                class="submit-button"
+                type="submit"
+                [disabled]="cargando"
+                expand="block">
+                <ion-spinner *ngIf="cargando" name="crescent"></ion-spinner>
+                <ion-icon *ngIf="!cargando" slot="start" name="log-in-outline" aria-hidden="true"></ion-icon>
+                {{ cargando ? (useInstitutionalEmail ? 'Redirigiendo...' : 'Ingresando...') : 'Ingresar' }}
+              </ion-button>
+
+              <ion-button
+                class="recovery-button"
+                type="button"
+                fill="clear"
+                (click)="irARegistro()">
+                Olvido o bloqueo su clave
+              </ion-button>
+            </div>
+          </form>
+
+          <div *ngIf="rolesDisponibles.length > 0" class="role-selection">
+            <div class="login-heading">
+              <h1>Seleccione su rol</h1>
+              <p>Su usuario tiene varios roles disponibles.</p>
+            </div>
+
+            <div class="role-list">
+              <ion-button
+                *ngFor="let rol of rolesDisponibles"
+                class="role-button"
+                fill="outline"
+                expand="block"
+                [disabled]="cargando"
+                (click)="seleccionarRol(rol)">
+                <ion-spinner *ngIf="cargando" name="crescent"></ion-spinner>
+                <ion-icon *ngIf="!cargando" slot="start" name="person-outline" aria-hidden="true"></ion-icon>
+                {{ rol.nombre }}
+              </ion-button>
+            </div>
+
+            <ion-button
+              class="back-button"
+              type="button"
+              fill="clear"
+              (click)="rolesDisponibles = []">
+              <ion-icon slot="start" name="arrow-back-outline" aria-hidden="true"></ion-icon>
+              Volver al inicio de sesion
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <aside class="register-panel">
+        <ion-text>
+          <h2>No tiene una cuenta?</h2>
+          <p>Registre su usuario para acceder a los servicios disponibles.</p>
+        </ion-text>
+        <ion-button type="button" color="light" (click)="irARegistro()">
+          <ion-icon slot="start" name="person-add-outline" aria-hidden="true"></ion-icon>
+          Registrarse aqui
+        </ion-button>
+      </aside>
+    </section>
+  </main>
+</ion-content>
+
+<app-footer-institucional></app-footer-institucional>

@@ -1,0 +1,109 @@
+<ion-menu class="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar class="menu-profile-toolbar">
+      <div class="user-menu-profile">
+        @if (usuario) {
+          <span class="user-menu-name">{{ usuario }}</span>
+        }
+        <span class="user-menu-avatar" aria-hidden="true">
+          {{ avatarUsuario || 'BE' }}
+          <span class="user-menu-status"></span>
+        </span>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list lines="none">
+      @for (option of menuOptions; track option.route) {
+        @if (tiene(option.permissionCode)) {
+          <ion-menu-toggle>
+            <ion-item button detail="false" (click)="navigateTo(option.route)">
+              <i slot="start" [class]="option.icon"></i>
+              <span>{{ getMenuLabel(option.route, option.label) }}</span>
+            </ion-item>
+          </ion-menu-toggle>
+        }
+      }
+    </ion-list>
+  </ion-content>
+  <ion-footer class="logout-menu-footer">
+    <ion-toolbar>
+      <ion-menu-toggle>
+        <ion-item class="logout-menu-item" button detail="false" (click)="logout()">
+          <i slot="start" class="pi pi-sign-out"></i>
+          <span>Cerrar sesion</span>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header class="main-header">
+    <ion-toolbar class="main-toolbar">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        <span class="header-user">
+          <span class="header-greeting">Hola, <strong>{{ getPrimerNombre(usuario) }}</strong></span>
+          <span class="header-avatar" aria-hidden="true">{{ avatarUsuario || 'BE' }}</span>
+        </span>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="main-home">
+    <main class="home-shell">
+      <section class="welcome-panel">
+        <div class="welcome-copy">
+          <span class="eyebrow">Direccion de Bienestar Estudiantil</span>
+          <h1>Gestion de servicios</h1>
+        </div>
+
+      </section>
+
+      <section class="services-panel" aria-label="Servicios disponibles">
+        <div class="section-heading">
+           <h2>Accesos disponibles</h2>
+        </div>
+
+        <div class="menu-grid">
+          @for (option of menuOptions; track option.route) {
+            @if (tiene(option.permissionCode)) {
+              <p-button
+                [icon]="option.icon"
+                [label]="getMenuLabel(option.route, option.label)"
+                styleClass="menu-action-button"
+                (onClick)="navigateTo(option.route)">
+              </p-button>
+            }
+          }
+        </div>
+      </section>
+    </main>
+  </ion-content>
+
+  <ion-footer class="main-footer">
+    <ion-toolbar class="footer-toolbar">
+      @if (!(isTracking$ | async)) {
+        <nav class="bottom-nav" aria-label="Navegacion principal">
+          <button
+            class="bottom-item register-item"
+            type="button"
+            (click)="navigateTo('recordTrazadoRuta')"
+            [disabled]="!tiene('TRAZADOS_RUTAS_ADD')">
+            <span class="register-icon" aria-hidden="true">
+              <i class="pi pi-car"></i>
+            </span>
+            <span>Registrar</span>
+          </button>
+        </nav>
+      }
+
+      @if (isTracking$ | async) {
+        <app-tracking-banner></app-tracking-banner>
+      }
+    </ion-toolbar>
+  </ion-footer>
+</div>

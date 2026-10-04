@@ -1,0 +1,391 @@
+@if (!cameraActive) {
+    <p-toast></p-toast>
+    <p-confirmDialog styleClass="device-dialog confirm-device-dialog"></p-confirmDialog>
+    <div class="navigation-header">
+          <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+          <p-button
+            icon="pi pi-times"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+            (click)="goBack()">
+          </p-button>
+        </div>
+
+  <div class="ion-page enrollment-shell">
+  
+
+    <ion-content class="enrolar-content">
+      <div class="enrolar-page">
+
+      <ion-card class="form-card">
+        <ion-card-header>
+          <ion-card-title class="card-title">Información del estudiante SIMAT (Anexo 6A)</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          @if (loading) {
+            <div class="loading-indicator">Cargando estudiante...</div>
+          }
+
+          <form>
+            <div class="student-summary">
+              <div class="student-field">
+                <span class="student-label">PER ID</span>
+                <span class="student-value">{{ matricula.perID }}</span>
+              </div>
+
+              <div class="student-field" [class.pending]="!matricula.idPersonDirectory">
+                <span class="student-label">Id Person Directory</span>
+                <span class="student-value">{{ matricula.idPersonDirectory || 'El estudiante no está registrado en la base de reconocimiento facial' }}</span>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="student-field">
+                <span class="student-label">Documento</span>
+                <span class="student-value">{{ matricula.numeroDocumento || '—' }}</span>
+              </div>
+
+            
+              @if (matricula.idPersonDirectory) {
+                <div class="student-field">
+                  <span class="student-label">Registro Azure Face API</span>
+                  <span class="student-value">{{ (matricula.fechaCreacion | date: "dd/MM/yyyy HH:mm") || '-' }}</span>
+                </div>
+              }
+              @if (mostrarInfoCompleta) {
+              <div class="student-field">
+                <span class="student-label">Nacimiento</span>
+                <span class="student-value">{{ matricula.fechaNacimiento || '—' }}</span>
+              </div>
+
+              <div class="student-field">
+                <span class="student-label">Primer Nombre</span>
+                <span class="student-value">{{ matricula.nombre1 || '—' }}</span>
+              </div>
+
+              <div class="student-field">
+                <span class="student-label">Segundo Nombre</span>
+                <span class="student-value">{{ matricula.nombre2 || '—' }}</span>
+              </div>
+
+              <div class="student-field">
+                <span class="student-label">Primer Apellido</span>
+                <span class="student-value">{{ matricula.apellido1 || '—' }}</span>
+              </div>
+
+              <div class="student-field">
+                <span class="student-label">Segundo Apellido</span>
+                <span class="student-value">{{ matricula.apellido2 || '—' }}</span>
+              </div>
+              }
+            </div>
+
+            <div class="student-details-toggle">
+              <p-button
+                type="button"
+                [label]="mostrarInfoCompleta ? 'Ver menos' : 'Ver mas'"
+                [icon]="mostrarInfoCompleta ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+                iconPos="left"
+                [text]="true"
+                (onClick)="mostrarInfoCompleta = !mostrarInfoCompleta">
+              </p-button>
+            </div>
+
+          </form>
+        
+          <div class="faces-actions-panel student-admin-actions">
+          <div class="actions">
+          @if (!matricula.idPersonDirectory) {
+            <p-button
+              type="button"
+              label="Guardar"
+              icon="pi pi-save"
+              btn-storePerson
+              (click)="guardarEstudiante()">
+            </p-button>
+          }
+          @if (matricula.idPersonDirectory) {
+            <p-button
+              type="button"
+              label="Eliminar"
+              icon="pi pi-trash"
+              [outlined]="true"
+              [loading]="isDeletingPerson"
+              (onClick)="confirmarEliminarEstudiante()">
+            </p-button>
+            <p-button
+              type="button"
+              label="Ver directorio"
+              icon="pi pi-eye"
+              [outlined]="true"
+              [loading]="loadingPersonsIdPersonDirectory === matricula.idPersonDirectory"
+              (onClick)="verPersons()">
+            </p-button>
+            <p-button
+            label="Tomar Fotografías"
+            icon="pi pi-camera"
+            (onClick)="openCamera()"
+            [outlined]="true"
+            [disabled]="cameraActive">
+          </p-button>
+           <p-button
+            type="button"
+            label="Consultar"
+            icon="pi pi-list"
+            [outlined]="true"
+            [disabled]="!facesEstudiante.length"
+            [loading]="loadingFacesPersonIdPersonDirectory === matricula.idPersonDirectory"
+            (onClick)="verFacesPerson()"
+          >
+             </p-button>
+          }
+          </div>
+        </div>
+       </ion-card-content>
+      </ion-card>
+
+      <div class="table-header">
+        <div class="faces-heading">
+          <div class="faces-heading-summary">
+            <div class="faces-count-info">
+              <span class="face-count">{{ getTotalRostrosActivos() || 0 }}</span>
+              <span class="section-label">
+                Rostro{{ getTotalRostrosActivos() === 1 ? "" : "s" }}
+                registrado{{ getTotalRostrosActivos() === 1 ? "" : "s" }}
+              </span>
+            </div>
+
+            @if (!imageCaptured) {
+              <p-button
+                class="faces-refresh-button"
+                icon="pi pi-refresh"
+                size="small"
+                [rounded]="true"
+                [text]="true"
+                (click)="getFacesEstudiante()">
+              </p-button>
+            }
+          </div>
+        </div>
+      </div>
+        
+        <div class="faces-scroll">
+        @if (facesEstudiante.length > 0) {
+          <ion-list lines="none" class="faces-list">
+            @for (face of facesEstudiante; track face.idRegistryFace; let i = $index) {
+              <ion-card
+                class="face-card"
+                [class.selected]="selectedFace?.idRegistryFace === face.idRegistryFace"
+                (click)="selectedFace = face; onRowSelect({ data: face })">
+                <ion-card-content>
+                  <div class="face-card-header">
+                    <div
+                      class="face-preview"
+                      [class.disabled]="!face.isState"
+                      [attr.aria-disabled]="!face.isState"
+                      (click)="$event.stopPropagation(); face.isState && getImagen(face.idPersonDirectory, face.nameFile)">
+                      <ion-icon name="image-outline"></ion-icon>
+                      <span>Ver</span>
+                    </div>
+
+                    <ion-chip class="face-id-chip">
+                      <ion-label>
+                        <span class="meta-label">Face ID : </span>
+                        <span class="meta-value">{{ face.persistedFaceId }}</span>
+                      </ion-label>
+                    </ion-chip>
+                  </div>
+                  <div class="face-meta">
+                    <ion-chip class="date-chip">
+                      <ion-icon name="calendar-outline"></ion-icon>
+                      <ion-label>
+                        <span class="meta-label">Fecha : </span>
+                        <span class="meta-value">{{ (face.fechaCreacion | date: "dd/MM/yyyy HH:mm") || '-' }}</span>
+                        
+                      </ion-label>
+                    </ion-chip>
+
+                    <ion-chip class="status-chip" [class.deleted]="face.isState !== true">
+                      <ion-icon
+                        [name]="face.isState !== true ? 'close-circle-outline' : 'checkmark-circle-outline'"
+                        [class]="getEstadoClass(face.isState)">
+                      </ion-icon>
+                      <ion-label>
+                        <span class="meta-label"></span>
+                        <span class="meta-value">{{ !face.isState ? 'Eliminado' : 'Activo' }}</span>
+                      </ion-label>
+                    </ion-chip>
+                    @if(face.isState){
+                    <p-button
+                      class="face-delete-button"
+                      label="Eliminar"
+                      size="small"
+                      severity="danger"
+                      icon="pi pi-trash"
+                      [rounded]="true"
+                      [outlined]="true"
+                      [disabled]="!face.isState"
+                      (click)="$event.stopPropagation(); confirmarEliminarFace(face)" />}
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            }
+          </ion-list>
+        } @else {
+          <ion-card class="empty-faces-card">
+            <ion-card-content>
+              <ion-icon name="person-circle-outline"></ion-icon>
+              <h3>Sin rostros registrados</h3>
+              <p>Consulte o tome fotografías para asociar rostros al estudiante.</p>
+            </ion-card-content>
+          </ion-card>
+        }
+        </div>
+
+    
+      </div>
+     </ion-content>
+  </div>
+  
+}
+
+<ion-modal [isOpen]="cameraActive" cssClass="camera-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="camera-title">Registro Fotográfico Sitio de Entrega N° {{ matricula.perID }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeCamera()">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <p-toast
+        key="camera"
+        position="top-center"
+        appendTo="body"
+        styleClass="camera-toast"
+        [baseZIndex]="200000">
+      </p-toast>
+
+      <div class="camera-modal-content">
+        <div id="cameraPreview" class="camera-area">
+          <div
+            class="face-guideline"
+            [class.face-detected]="faceDetectedInRealTime"
+            [class.no-face]="!faceDetectedInRealTime">
+          </div>
+        </div>
+
+        <div class="camera-controls">
+          <p-button
+            label="Capturar"
+            size="large"
+            icon="pi pi-camera"
+            iconPos="right"
+            (onClick)="captureImage()"
+            severity="contrast"
+            [disabled]="!faceDetectedInRealTime || imageCaptured"
+            [styleClass]="faceDetectedInRealTime ? 'p-button-success' : 'p-button-secondary'">
+          </p-button>
+
+          @if (cameraActive && !faceDetectedInRealTime) {
+            <div>
+              Enfoque el rostro de la persona...
+            </div>
+          }
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<p-dialog
+  header="Persona en Person Directory de Face Api Azure"
+  [(visible)]="personsDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: 'min(760px, 95vw)' }"
+>
+  @if (personsDirectorySeleccionado) {
+    <div class="persons-dialog">
+      <section class="persons-summary" >
+        <div>
+          <span>Per ID : </span>
+          <strong>{{ personsDirectorySeleccionado.name }}</strong>
+        </div>
+        <div>
+          <span>Person ID : </span>
+          <strong>{{ personsDirectorySeleccionado.personId }}</strong>
+        </div>
+  
+
+      <div class="dialog-faces-total">
+        <span class="dialog-face-count">{{ getTotalRostrosActivos() || 0 }}</span>
+        <span>
+          Rostro{{ getTotalRostrosActivos() === 1 ? "" : "s" }}
+          registrado{{ getTotalRostrosActivos() === 1 ? "" : "s" }}
+        </span>
+      </div>
+    </section>
+      <section class="userdata-panel">
+        <div class="userdata-header">
+          <span>Datos del Estudiante</span>
+        </div>
+        <pre>{{ personsDirectoryUserDataJson }}</pre>
+      </section>
+    </div>
+  }
+</p-dialog>
+
+<p-dialog
+  header="Rostros en Person Directory de Face Api Azure"
+  [(visible)]="facesPersonDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: 'min(760px, 95vw)' }"
+>
+  @if (facesPersonSeleccionado) {
+    <div class="persons-dialog">
+      <section class="persons-summary persons-summary-inline faces-person-summary">
+        <div>
+          <span>Per ID : </span>
+          <strong>{{ matricula.perID }}</strong>
+        </div>
+        <div>
+          <span>Person ID : </span>
+          <strong>{{ facesPersonSeleccionado.personId }}</strong>
+        </div>
+        <div class="faces-total-line">
+          <span>Total Faces : </span>
+          <strong>{{ facesPersonSeleccionado.persistedFaceIds?.length || 0 }}</strong>
+        </div>
+      </section>
+
+      <section class="userdata-panel">
+        <div class="userdata-header">
+          <span>Faces almacenados en Azure</span>
+        </div>
+        <pre>{{ facesPersonJson }}</pre>
+      </section>
+    </div>
+  }
+</p-dialog>
+
+<p-dialog
+  header="Vista de Imagen"
+  [(visible)]="mostrarDialogoImagen"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="device-dialog image-preview-dialog">
+  <img
+    class="image-preview"
+    [src]="getSafeImageUrl(imagenSeleccionada!)"
+    alt="Imagen">
+</p-dialog>

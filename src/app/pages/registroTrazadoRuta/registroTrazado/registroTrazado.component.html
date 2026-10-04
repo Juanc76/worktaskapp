@@ -1,0 +1,194 @@
+
+<p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+   <div class="navigation-header">
+    <p-breadcrumb [home]="home" [model]="items">
+    </p-breadcrumb>
+    <div class="header-actions">
+      <p-button
+              icon="pi pi-sync"
+              severity="secondary"
+              [rounded]="true"
+              [outlined]="true"
+              [disabled]="isSyncing"
+              [loading]="isSyncing"
+              (onClick)="syncAll()">
+      </p-button>
+      <p-button 
+              icon="pi pi-times" 
+              severity="secondary"
+              [rounded]="true"
+              [text]="true"
+              [disabled]="isSyncing"
+              [routerLink]="['/main']">  </p-button>
+    </div>
+    </div>
+
+<ion-header translucent="true">  
+ 
+<ion-toolbar>
+
+    <div class="filter-actions-row app-filter-actions" >
+      <div class="filter-toggle">
+        <p-button
+          icon="pi pi-sliders-h"
+          label="Filtros"
+          [outlined]="true"
+          (click)="showFilters = !showFilters">
+        </p-button>
+      </div>
+
+      <div class="filter-clear" *ngIf="showFilters &&  trazados.length > 0">
+          <p-button
+            label="Limpiar"
+            [outlined]="true"
+            icon="pi pi-filter-slash"
+            (click)="clear()" />
+      </div>
+    </div>
+ 
+  </ion-toolbar>
+</ion-header>
+<div class="app-filters-container" *ngIf="showFilters &&  trazados.length > 0">
+    <div class="filter-item search">
+        <p-iconfield iconPosition="left">
+          <p-inputicon class="pi pi-search" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Búsqueda Global"
+            [(ngModel)]="globalFilterValue"
+            (input)="aplicarFiltros()"
+          />
+        </p-iconfield>
+      </div>
+    <div class="filters">
+      <!-- Filtro por rango de fechas -->
+      <div class="date-filters">
+      <label class="font-label"> Desde </label>
+      <p-datepicker
+        [(ngModel)]="filterStartDate"
+        name="startDate"
+         placeholder="aaaa-mm-dd"
+        [showIcon]="true"
+        size="small"
+        dateFormat="yy-mm-dd"
+        readonlyInput="true">
+      </p-datepicker>
+      </div>
+      <div class="date-filters">
+      
+       <label class="font-label"> Hasta </label>
+      <p-datepicker
+        [(ngModel)]="filterEndDate"
+        name="endDate"
+        placeholder="aaaa-mm-dd"
+        [showIcon]="true"
+        size="small"
+        dateFormat="yy-mm-dd"
+        readonlyInput="true"
+        (onSelect)="aplicarFiltros()">
+      </p-datepicker>
+       </div>
+      
+    </div>
+</div>
+
+<div class="subtitle-text">
+        <span  *ngIf="filteredTrazados && filteredTrazados.length  > 0">
+          Mostrando {{filteredTrazados.length  }} Registros
+        </span>
+   </div>
+
+    <ion-content>
+   <ion-list lines="none">
+<!-- slice:0:rowsToDisplay  Se agrega pipe slice para limitar la cantidad de items a mostrar-->
+      <ion-card 
+      class="trazados-card"
+      *ngFor="let registro of displayedTrazados"
+      [routerLink]="['mapseguimiento', registro.idTrazado]" 
+      >
+
+      <ion-card-content>
+        <div class="map-preview">
+          <ion-img
+            *ngIf="mapUrls[registro.idTrazado] && !mapLoadFailed[registro.idTrazado]; else mapFallback"
+            [src]="mapUrls[registro.idTrazado]"
+            class="mini-mapa"
+            (ionError)="markMapAsFailed(registro.idTrazado)">
+          </ion-img>
+
+          <ng-template #mapFallback>
+            <div class="map-placeholder">
+              <i class="pi pi-map-marker"></i>
+              <span>Mapa no disponible</span>
+            </div>
+          </ng-template>
+
+          <ion-chip class="sync-badge synced" *ngIf="registro.syncedDB">
+            <ion-icon name="checkmark-circle" class="verified-icon"></ion-icon>
+            <ion-label>Sincronizado</ion-label>
+          </ion-chip>
+
+          <ion-chip class="sync-badge pending" *ngIf="!registro.syncedDB">
+            <i class="pi pi-cloud-upload"></i>
+            <ion-label>Pendiente</ion-label>
+          </ion-chip>
+        </div>
+
+        <div class="card-body">
+          <div class="card-header">
+            <div class="route-icon">
+              <i class="pi pi-directions"></i>
+            </div>
+            <div class="trazado-info">
+              <span class="route-label">Recorrido</span>
+              <h2>{{ registro.recorrido }}</h2>
+            </div>
+          </div>
+
+          <div class="doc-row">
+            <i class="pi pi-calendar"></i>
+            <p class="document">
+              {{ formatDateTime(registro.FechaStart) }}
+              <span class="perid" *ngIf="registro.FechaEnd"> - {{ formatDateTime(registro.FechaEnd) }}</span>
+            </p>
+          </div>
+
+          <div class="meta-chips">
+            <div class="metric-card distance-chip">
+              <i class="pi pi-compass"></i>
+              <div>
+                <span>Distancia</span>
+                <strong>{{ formatDistance(registro.distanciaAcumulada) }} km</strong>
+              </div>
+            </div>
+
+            <div class="metric-card time-chip">
+              <i class="pi pi-clock"></i>
+              <div>
+                <span>Duracion</span>
+                <strong>{{ formatoDuration(registro.tiempoAcumulado) }}</strong>
+              </div>
+            </div>
+
+            <div class="metric-card speed-chip">
+              <i class="pi pi-chart-line"></i>
+              <div>
+                <span>Velocidad</span>
+                <strong>{{ registro.velocidadMedia }} km/h</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+
+  </ion-list>
+
+   <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+

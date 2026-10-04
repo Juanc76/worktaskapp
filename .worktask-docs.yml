@@ -1,0 +1,8 @@
+project_id: WORKTASK
+component: worktaskapp
+docs_root_env: WORKTASK_DOCS_ROOT
+docs_root: 'D:\WebProject\worktaskdoc'
+home: 00_INICIO/WORKTASK.md
+current_context: 00_INICIO/CONTEXTO_ACTUAL.md
+agent_protocol: 10_GOBIERNO/PROTOCOLO_AGENTES.md
+

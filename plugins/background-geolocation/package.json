@@ -1,0 +1,38 @@
+{
+    "name": "seddbe-background-geolocation",
+    "version": "1.0.0",
+    "description": "SED DBE local background geolocation plugin.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/capacitor-community/background-geolocation"
+    },
+    "license": "MIT",
+    "author": "James Diacono",
+    "types": "definitions.d.ts",
+    "files": [
+        "CapacitorCommunityBackgroundGeolocation.podspec",
+        "Package.swift",
+        "android/build.gradle",
+        "android/gradle.properties",
+        "android/gradle/wrapper/gradle-wrapper.properties",
+        "android/proguard-rules.pro",
+        "android/settings.gradle",
+        "android/src/main/",
+        "definitions.d.ts",
+        "ios/Plugin/Info.plist",
+        "ios/Plugin/Plugin.*",
+        "ios/Plugin/Swift/Plugin.swift",
+        "ios/Podfile*"
+    ],
+    "peerDependencies": {
+        "@capacitor/core": ">=3.0.0"
+    },
+    "capacitor": {
+        "ios": {
+            "src": "ios"
+        },
+        "android": {
+            "src": "android"
+        }
+    }
+}

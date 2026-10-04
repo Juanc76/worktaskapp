@@ -1,0 +1,179 @@
+<div class="scroll-content">
+  <p-toast></p-toast>
+  <div class="navigation-header" *ngIf="!inModal">
+    <p-breadcrumb [home]="home" [model]="items"></p-breadcrumb>
+    <p-button 
+      icon="pi pi-times" 
+      severity="secondary"
+      [rounded]="true"
+      [text]="true"
+      [routerLink]="['/registroServicioPME']">  
+    </p-button> 
+  </div>
+
+
+  <div class="form-container">
+
+    <!-- Detalles de la Ruta -->
+    <div class="form-section">
+      <h2>Detalles de la Ruta</h2>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-field">
+            <label>ID Ruta:</label>
+            <span>{{ detalleRuta.idRuta }}</span>
+          </div>
+          <div class="form-field">
+            <label>Ruta Escolar:</label>
+            <span>{{ detalleRuta.rutaEscolar }}</span>
+          </div>
+          <div class="form-field">
+            <label>Localidad:</label>
+            <span>{{ detalleRuta.localidad }}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          
+          <div class="form-field">
+            <label>Segmento:</label>
+            <span>{{ detalleRuta.segmentoGeografico }}</span>
+          </div>
+            <div class="form-field">
+            <label>Tipo Ruta:</label>
+            <span>{{ detalleRuta.tipoRuta }}</span>
+          </div>
+          <div class="form-field">
+            <label>Tipología:</label>
+            <span>{{ detalleRuta.tipologiaRuta }}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Zona Operación:</label>
+            <span>{{ detalleRuta.zonaOperacion }}</span>
+          </div>
+          <div class="form-field">
+            <label>Mov. Reducida:</label>
+            <span>{{ detalleRuta.movilidadReducida ? 'Sí' : 'No' }}</span>
+          </div>
+          <div class="form-field"></div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <!-- Detalles del Colegio -->
+    <div class="form-section">
+      <h2>Detalles del Colegio</h2>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-field">
+            <label>DANE:</label>
+            <span>{{ detalleRuta.daneColegio }}</span>
+          </div>
+          <div class="form-field">
+            <label>Nombre Colegio:</label>
+            <span>{{ detalleRuta.nombreColegio }}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Sede Educativa:</label>
+            <span>{{ detalleRuta.sedeEducativa }}</span>
+          </div>
+          <div class="form-field">
+            <label>Jornada Educativa:</label>
+            <span>{{ detalleRuta.jornadaEducativa }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+     <div class="form-section">
+       <h2>Horas  de Operación</h2>
+      <div class="form-grid">
+       <div class="form-row">
+          <div class="form-field">
+            <label>Horas Recorrido 1:</label>
+            <span>{{ detalleRuta.horasRecorrido1 }}</span>
+          </div>
+          <div class="form-field">
+            <label>Horas Recorrido 2:</label>
+            <span>{{ detalleRuta.horasRecorrido2 }}</span>
+          </div>
+        </div>
+      </div>  
+     </div>
+    <!-- Días de Operación -->
+    <div class="form-section">
+      <h3>Días de Operación</h3>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Lu:</label>
+            <span>{{ detalleRuta.operaLunes ? 'Sí' : 'No' }}</span>
+          </div>
+          <div class="form-field">
+            <label>Ma:</label>
+            <span>{{ detalleRuta.operaMartes ? 'Sí' : 'No' }}</span>
+          </div>
+          <div class="form-field">
+            <label>Mi:</label>
+            <span>{{ detalleRuta.operaMiercoles ? 'Sí' : 'No' }}</span>
+          </div>
+          <div class="form-field">
+            <label>Ju:</label>
+            <span>{{ detalleRuta.operaJueves ? 'Sí' : 'No' }}</span>
+          </div>
+        
+          <div class="form-field">
+            <label>Vi:</label>
+            <span>{{ detalleRuta.operaViernes ? 'Sí' : 'No' }}</span>
+          </div>
+          <div class="form-field">
+            <label>Sá:</label>
+            <span>{{ detalleRuta.operaSabado ? 'Sí' : 'No' }}</span>
+          </div>
+            <div class="form-field">
+            <label>Do:</label>
+            <span>{{ detalleRuta.operaDomingo ? 'Sí' : 'No' }}</span>
+          </div>
+           <div class="form-field"></div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <!-- Horarios de Operación -->
+    <div class="form-section">
+      <h3>Horarios de Operación</h3>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Hora Inicio Recorrido 1:</label>
+            <span>{{ detalleRuta.inicioRecorrido1 }}</span>
+          </div>
+          <div class="form-field">
+            <label>Hora Inicio Jornada:</label>
+            <span>{{ detalleRuta.inicioJornada }}</span>
+          </div>
+           <div class="form-field">
+            <label>Hora Fin Jornada:</label>
+            <span>{{ detalleRuta.finJornada }}</span>
+          </div>
+          <div class="form-field">
+            <label>Hora Inicio Recorrido 2:</label>
+            <span>{{ detalleRuta.inicioRecorrido2 }}</span>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+

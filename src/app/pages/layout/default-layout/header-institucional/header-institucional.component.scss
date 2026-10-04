@@ -1,0 +1,137 @@
+.gov-bar {
+  background-color: #3366cc;
+  color: white;
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.logos-tamanio{
+  max-width: 1110px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: white;
+  flex-wrap: wrap;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bubble {
+  background-color: #f25022;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 0 0 10px 10px;
+  font-weight: bold;
+  position: relative;
+}
+
+.right img {
+  height: 40px;
+  margin-left: 10px;
+}
+
+.main-menu {
+  display: flex;
+  background-color: #f25022;
+  padding: 10px;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.main-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-right: 1px solid white;
+  padding-right: 10px;
+}
+
+.main-menu a:last-child {
+  border-right: none;
+}
+
+.mobile-toolbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .main-menu {
+    display: none !important;
+  }
+
+  .mobile-toolbar {
+    display: block;
+    width: 100%;
+  }
+  .right{
+    display: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-container {
+    background-color: #ffffff; // azul institucional para modo oscuro
+  }
+
+  .gov-bar {
+    background-color: #001c45; // opcional: fondo gov.co
+  }
+
+  .header-container img {
+    filter: brightness(1.2); // mejora visibilidad de logos
+  }
+}
+
+.d-flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.usuario-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  background-color: #00005f;
+  color: #fff;
+
+  a{
+    color: #fff;
+    text-decoration: none;
+  }
+
+  img {
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    width: 40px;
+    height: 40px;
+  }
+
+  .datos {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+  }
+
+  ion-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 0.75rem;
+    height: 32px;
+  }
+}

@@ -1,0 +1,443 @@
+      <p-toast></p-toast>
+      <p-confirmDialog></p-confirmDialog>
+  @if (!cameraActive) {  
+      <div class="navigation-header">
+        <p-breadcrumb [home]="home" [model]="items">
+        </p-breadcrumb>
+           <div class="header-actions">
+              <p-button
+              icon="pi pi-sync"
+              (click)="syncAll()"
+              [rounded]="true"
+              [outlined]="true"
+               severity="secondary">
+            </p-button>
+            
+            <p-button
+            icon="pi pi-times"
+            severity="secondary"
+            [rounded]="true"
+            [text]="true"
+            [routerLink]="['/registroEntregaPAE']" > 
+           </p-button>
+      </div>
+    </div>
+  
+  @if (entregaActual) {
+    <div class="entrega-card">
+        <div class="entrega-header">
+          <div class="entrega-title">
+            <i class="pi pi-box"></i>
+            <span>Datos de la Entrega</span>
+          </div>
+          <div class="entrega-header-right">
+            <span class="entrega-id">#{{ idEntrega }}</span>
+            @if (entregaMinimized) {
+              <span class="entrega-id">Sitio: {{ entregaActual.idSitioEntrega }}</span>
+            }
+            <p-button
+              size="small"
+              [text]="true"
+              [rounded]="true"
+              severity="secondary"
+              [icon]="entregaMinimized ? 'pi pi-chevron-down' : 'pi pi-chevron-up'"
+              (onClick)="toggleEntregaCard()">
+            </p-button>
+          </div>
+        </div>
+        @if (!entregaMinimized) {
+        <div class="entrega-grid">
+        <div class="item">
+          <label>Día</label>
+          <span>{{ entregaActual.Fecha }}</span>
+        </div>
+        <div class="item">
+          <label>Colegio</label>
+          <span>{{ entregaActual.Colegio }}</span>
+        </div>
+        <div class="item">
+          <label>Sede</label>
+          <span>{{ entregaActual.Sede }}</span>
+        </div>
+        <div class="item">
+          <label>ID Sitio</label>
+          <span class="id">{{ entregaActual.idSitioEntrega }}</span>
+        </div>
+        <div class="item full">
+          <label>Tipo de Entrega</label>
+          <span>{{ entregaActual.DescripcionProyecto }}</span>
+        </div>
+  </div>
+        }
+</div>
+  }
+<ion-card class="photo-summary-card" *ngIf="photoSummary && photoSummary.totalFotos > 0">
+
+  <div class="summary-grid">
+
+    <div class="summary-box">
+       <div class="summary-number">
+        <i class="pi pi-camera"></i>
+        {{ photoSummary.totalFotos }}</div>
+      <div class="summary-label">Fotos</div>
+    </div>
+
+    <div class="summary-box synced">
+      <div class="summary-number">
+        <i class="pi pi-cloud"></i>
+        {{ photoSummary.sincronizadas }}</div>
+      <div class="summary-label">Sincronizadas</div>
+    </div>
+
+    <div class="summary-box pending">
+      <div class="summary-number">
+        <i class="pi pi-cloud-upload"></i>
+        {{ photoSummary.pendientes }}</div>
+      <div class="summary-label">Pendientes</div>
+    </div>
+
+  </div>
+
+</ion-card>
+  
+  @if (!cameraActive) {
+    <div class="sync-status" >
+      @if (isSyncing) {
+       
+          <!-- Barra indeterminada -->
+          @if (useIndeterminate) {
+            <p-progressBar
+              mode="indeterminate">
+            </p-progressBar>
+          } @else {
+            <p-progressBar
+              [value]="(totalToSync ? (syncedCount / totalToSync) * 100 : 0) | number:'1.0-0'"
+              [showValue]="true">
+            </p-progressBar>
+            <div class="mt-2 text-center">
+              Subiendo fotos... {{ syncedCount | number:'1.0-0' }}/{{ totalToSync | number:'1.0-0' }}
+            </div>
+          }
+     
+      }
+      @else if (selectionMode) {
+      <div class="selection-toolbar">
+
+      <span>{{ selectedPhotos.size }} seleccionadas</span>
+          <p-button
+            [icon]="allSelected ? 'pi pi-check-square' : 'pi pi-list-check'"
+            [label]="allSelected ? 'Anular selección' : 'Seleccionar todo'"
+            (onClick)="toggleSelectAll()"
+            severity="contrast"
+            size="large">
+          </p-button>
+
+          <p-button
+            icon="pi pi-trash"
+            size="large"
+            (onClick)="deleteSelected()"
+            severity="contrast"
+            [disabled]="selectedPhotos.size === 0">
+          </p-button>
+
+          <p-button
+            icon="pi pi-times"
+            size="large"
+            severity="contrast"
+            (onClick)="clearSelection()"
+            >
+          </p-button>
+       </div>
+      }
+      @else {
+        <div>
+          <p-button
+            label="Tomar Fotografias"
+            icon="pi pi-camera"
+            class="btn-camera"
+            (onClick)="openCamera()"
+            severity="contrast"
+            [outlined]="true"
+            [disabled]="!entregaActual || cameraActive || isSyncing">
+          </p-button>
+        </div>
+      }
+    </div>
+  }
+<div class="subtitle-text">
+        <span  *ngIf="capturedPhotos && capturedPhotos.length > 0">
+          Mostrando {{ capturedPhotos.length }} Registros
+        </span>
+   </div>
+ <ion-content class="page-content">
+    <ion-card
+        class="photo-card"
+        [ngClass]="{'sync-ok': photo.syncedPhoto, 'sync-pending': !photo.syncedPhoto}"
+          *ngFor="let photo of capturedPhotos ; trackBy: trackByRegistro">
+        <ion-card-content>
+
+<div class="card-row">
+
+  <div *ngIf="selectionMode" class="photo-checkbox">
+    <ion-checkbox
+      (ionChange)="toggleSelection(photo)"
+      [checked]="isSelected(photo)"
+      [disabled]="!!photo.syncedPhoto"
+      class="checkbox">
+    </ion-checkbox>
+  </div>
+
+  <!-- FOTO -->
+  <div class="photo-container" 
+  (mousedown)="startPress(photo)"
+  (mouseup)="cancelPress()"
+  (mouseleave)="cancelPress()"
+
+  (touchstart)="startPress(photo)"
+  (touchend)="cancelPress()">
+                  @if (!photo.syncedPhoto) {
+                    <img
+                      [src]="photo.url"
+                      alt="{{ photo.fileName }}"
+                      loading="lazy"
+                      (click)="viewPhoto(photo)"
+                      />
+                  }
+                  @if (photo.syncedPhoto) {
+                    <img
+                      [src]="'assets/icon/Syncedv3.png'"
+                      alt="{{ photo.fileName  }}"
+                      loading="lazy"
+                      (click)="viewPhoto(photo)"
+                     />
+                  }
+  </div>
+
+  <!-- INFORMACIÓN -->
+  <div class="info-container">
+        <ion-chip outline class="chip-fecha">
+          <i class="pi pi-calendar"></i>
+          Fecha y hora Foto {{ photo.date | date:'dd/MM/yyyy HH:mm' }}
+        </ion-chip>
+
+        <div class="estado-row">
+              <div class="estado">
+                  <div class="sync" *ngIf="photo.syncedPhoto">
+                        <i class="pi pi-sync" style="color: #70b410"></i>
+                        Foto Sincronizada con Blob
+                        <span *ngIf="photo.syncPhotoDate">
+                          · {{ photo.syncPhotoDate | date:'dd/MM/yyyy HH:mm' }}
+                        </span>
+                  </div>
+              </div>
+                <div class="estado">
+                  <div class="sync" *ngIf="photo.syncedDB">
+                        <i class="pi pi-sync" style="color: #70b410"></i>
+                        Sincronizado DB
+                        <span *ngIf="photo.syncDBDate">
+                          · {{ photo.syncDBDate | date:'dd/MM/yyyy HH:mm' }}
+                        </span>
+                  </div>
+              </div>
+          </div>
+     </div>
+  </div>
+ </ion-card-content>
+</ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando registros..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  </ion-content>
+  
+}
+
+<!-- 🔹 Modal de la cámara -->
+<ion-modal
+  [isOpen]="cameraActive"
+  cssClass="camera-modal"
+  >
+  <ng-template>
+ <ion-header>
+    <ion-toolbar>
+      <ion-title class="camera-title">Registro Fotografico Sitio de Entrega N° {{ entregaActual?.idSitioEntrega }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeCamera()">Cerrar</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="modal-content">
+   
+    <div class="camera-modal-content">
+       
+      <div id="cameraPreview" class="camera-area" [class.frozen]="isImageFrozen">
+        <img *ngIf="isImageFrozen" 
+         [src]="capturedImagePreview" 
+         class="frozen-preview">
+        <div class="face-guideline" 
+       [ngStyle]="faceGuideStyle"
+       [class.face-detected]="faceDetectedInRealTime"
+       [class.no-face]="!faceDetectedInRealTime">
+        </div>
+
+        <div *ngIf="isProcessingCapture" class="capture-status" aria-live="polite">
+          <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+          <span>Rostro detectado. Capturando foto...</span>
+        </div>
+
+      </div>
+
+      <div class="sheet-content" [class.collapsed]="isSheetCollapsed">
+        <div class="sheet-handle" (click)="toggleSheet()">
+          <div class="handle-bar"></div>
+        </div>
+
+        <div class="camera-filters">
+        <!--  <ion-item>-->
+            <!-- <ion-select
+              fill="outline" 
+              shape="round"
+              labelPlacement="floating"
+              placeholder="Seleccione un grado"
+              [interfaceOptions]="customModalOptions"
+              [(ngModel)]="selectedGrado"
+              (ionChange)="onGradoChange($event)">
+              <ion-select-option *ngFor="let grado of gradosList" [value]="grado.value">
+                {{ grado.label }}
+              </ion-select-option>
+            </ion-select> -->
+                    <!--</ion-item> -->
+             <!--  <ion-item>-->
+            <!-- <ion-input
+              label="Curso"
+              labelPlacement="floating"
+              placeholder="Ej: 301, 502..."
+              [(ngModel)]="cursoInput"
+              type="text"
+              maxlength="20">
+            </ion-input> -->
+        <!--  </ion-item>-->
+
+        </div>
+
+        <div class="camera-controls modal-actions">
+          <p-button
+            *ngIf="isImageFrozen"
+             label="Almacenar Foto"
+            size="large"
+            icon="pi pi-camera"
+            iconPos="right"
+            (onClick)="captureImage()"
+            [disabled]="isProcessingSave"
+           >
+          </p-button>
+
+          <p-button
+            *ngIf="isImageFrozen"
+            label="Volver a intentar"
+            icon="pi pi-refresh"
+            (onClick)="resetCameraView()"
+            [disabled]="isProcessingSave">
+          </p-button>
+
+          <div *ngIf="!isImageFrozen" class="camera-hint">
+            {{ isProcessingCapture ? 'Capturando foto nitida...' : 'Enfoque el rostro de la persona...' }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal
+  [isOpen]="displayDialog"
+  cssClass="photo-modal"
+  >
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Detalles de la Foto</ion-title>
+        <ion-buttons slot="end">
+          <ion-button  fill="clear" (click)="closeDialog()">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="photo-modal-content">
+      <ng-container *ngIf="selectedPhoto">
+       <div class="dialog-content">
+
+          @if (!selectedPhoto.syncedPhoto) {
+            <div class="photo-containerDialog">
+              <img
+                [src]="selectedPhoto.url"
+                alt="{{ selectedPhoto.fileName }}"
+                class="photo-preview"/>
+            </div>
+          }
+
+            <div class="photo-details">
+
+              <div class="detail-row">
+                <span class="label">ID Foto</span>
+                <span class="value">{{ selectedPhoto.idPhoto }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Nombre archivo</span>
+                <span class="value">{{ selectedPhoto.fileName }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Fecha y hora toma</span>
+                <span class="value">{{ selectedPhoto.date | date:'medium' }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Sincronizado</span>
+
+                @if (selectedPhoto.syncedPhoto) {
+                  <span class="status-synced value">Sincronizada · {{ selectedPhoto.syncPhotoDate }}</span>
+                }
+
+                @if (!selectedPhoto.syncedPhoto) {
+                  <span class="status-pending value">Pendiente</span>
+                }
+
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Coordenadas</span>
+                <span class="value">Lat {{ selectedPhoto.latitud}}, Long {{ selectedPhoto.longitud }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Nombre Colegio</span>
+                <span class="value">{{ entregaActual?.Colegio }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Sede Educativa</span>
+                <span class="value">{{ entregaActual?.Sede }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">N° Sitio Entrega</span>
+                <span class="value">{{ entregaActual?.idSitioEntrega }}</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="label">Tipo Entrega</span>
+                <span class="value">{{ entregaActual?.DescripcionProyecto }}</span>
+              </div>
+
+            </div>
+
+</div>
+      </ng-container>
+      </ion-content>
+    </ng-template>
+  </ion-modal>

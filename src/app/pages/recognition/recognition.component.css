@@ -1,0 +1,140 @@
+.recognition-container {
+  width: 30%; 
+  height: 99%; 
+  padding: 10px;
+  margin-left: 5px;
+  margin-top: 5px;
+  border: 1px solid #0a3f79;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+h2 {
+  text-align: center;
+  color: #551414;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.media-area {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #0a3f79;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  background-color: #f3f3f2;
+  border-radius: 8px;
+  min-height: 58vh;
+  overflow: hidden;
+  
+}
+
+.media-area .imagen-preview {
+  width: 99%;
+  height: auto;
+  padding: 2px;
+}
+
+.media-area.camera-active {
+  background-color: transparent;
+}
+
+.recognition-container.camera-active {
+  background-color: transparent;
+}
+
+.camera-hint {
+  align-items: center;
+  background: rgba(10, 63, 121, 0.62);
+  border-radius: 6px;
+  color: #ffffff;
+  display: flex;
+  font-weight: 700;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.btn-detect{
+  --p-button-primary-background: #f3e072; /* Color verde */
+  --p-button-primary-hover-background:   #e7db95; /* Color verde más oscuro al pasar el mouse */
+  --p-button-primary-color: rgb(102, 65, 65); /* Texto blanco */
+
+}
+
+.btn-recognize {
+  --p-button-primary-background: #3b75f1; /* Color verde */
+  --p-button-primary-hover-background: #3a5897; /* Color verde más oscuro al pasar el mouse */
+  --p-button-primary-color: rgb(236, 230, 230); /* Texto blanco */
+}
+
+.btn-recognize-api {
+  --p-button-primary-background: #0f766e;
+  --p-button-primary-hover-background: #115e59;
+  --p-button-primary-color: rgb(236, 230, 230);
+}
+
+.results {
+  margin-top: 1rem;
+}
+
+/* ========================= */
+/* Media Queries para móvil  */
+/* ========================= */
+@media (max-width: 768px) {
+  .recognition-container {
+    width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+    height: auto;
+    margin: 0;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 16px; /* Reduce el tamaño del texto */
+  }
+
+  .media-area {
+    flex-direction: column; /* Cambia a diseño vertical */
+    margin: 10px 0;
+  }
+
+  .media-area .imagen-preview {
+    width: 100%; /* Asegura que el video/imagen ocupe todo el ancho */
+    height: auto;
+  }
+
+  .actions {
+    flex-direction: column; /* Botones en columna */
+    gap: 0.5rem;
+  }
+
+  .btn-detect,
+  .btn-recognize-api,
+  .btn-recognize {
+    width: 100%; /* Botones ocupan todo el ancho */
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 14px; /* Reduce aún más el tamaño del texto */
+  }
+
+  .actions {
+    gap: 0.3rem; /* Reduce el espacio entre botones */
+  }
+}

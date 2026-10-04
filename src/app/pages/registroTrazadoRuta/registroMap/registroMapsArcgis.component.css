@@ -1,0 +1,29 @@
+/*
+  En esta pantalla el mapa debe capturar los gestos táctiles.
+  Si el contenedor hace scroll (overflow-y:auto), el drag con el dedo termina
+  desplazando la página en lugar del mapa.
+*/
+
+.scroll-content {
+  overflow: hidden;
+}
+
+/* Asegura layout estable: header arriba, mapa ocupa el resto */
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.map-canvas {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+
+  /* Clave: evita que el navegador convierta el gesto en scroll/zoom de página */
+  touch-action: none;
+
+  /* iOS Safari */
+  -webkit-user-select: none;
+  user-select: none;
+}

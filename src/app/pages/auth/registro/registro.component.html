@@ -1,0 +1,313 @@
+<app-header-institucional></app-header-institucional>
+  <p-toast></p-toast>
+<c-container [fluid]="true" style="overflow-x: hidden; padding: 1rem; padding-bottom: 200px;">
+  <c-row class="justify-content-center">
+    <c-col [xs]="12" [md]="10" [lg]="8">
+      <c-card>
+        <c-card-body>
+
+          <!-- Botón Atrás -->
+          <div class="mb-3">
+            <p-button
+              icon="pi pi-arrow-left"
+              label="Volver al Login"
+              severity="secondary"
+              [text]="true"
+              [routerLink]="['/login']">
+            </p-button>
+          </div>
+
+          <form [formGroup]="RegistroForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+            <!-- ── Bloque 1: Correo Electrónico y Contraseñas ── -->
+            <p-fieldset legend="Acceso" [toggleable]="false" styleClass="mb-4">
+              <c-row>
+
+                <!-- Email -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="email" class="form-label">Correo Electrónico</label>
+                  <input pInputText id="email" formControlName="email" type="email" autocomplete="off"
+                    placeholder="Correo Electrónico" style="width:100%"
+                    [invalid]="isInvalid('email')" />
+                  @if (RegistroForm.get('email')?.errors?.['required'] && isInvalid('email')) {
+                    <p-message severity="error" size="small" variant="simple">Se requiere correo electrónico.</p-message>
+                  }
+                  @if (RegistroForm.get('email')?.errors?.['email'] && isInvalid('email')) {
+                    <p-message severity="error" size="small" variant="simple">Ingrese una cuenta de correo valida.</p-message>
+                  }
+                </c-col>
+
+                <!-- Confirmar Email -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="email2" class="form-label">Confirme Correo Electrónico</label>
+                  <input pInputText id="email2" formControlName="emailConfirm" type="email" autocomplete="off"
+                    placeholder="Confirme correo electrónico" style="width:100%"
+                    [invalid]="(RegistroForm.get('emailConfirm')?.invalid && RegistroForm.get('emailConfirm')?.touched) ||
+                               (RegistroForm.errors?.['emailCoincide'] && RegistroForm.get('emailConfirm')?.touched)" />
+                  @if (RegistroForm.get('emailConfirm')?.errors?.['required'] && RegistroForm.get('emailConfirm')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Se requiere confirmación Email.</p-message>
+                  }
+                  @if (RegistroForm.get('emailConfirm')?.errors?.['email'] && RegistroForm.get('emailConfirm')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Ingrese una cuenta de correo valida.</p-message>
+                  }
+                  @if (RegistroForm.errors?.['emailCoincide'] && RegistroForm.get('emailConfirm')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Los correos electrónicos no coinciden.</p-message>
+                  }
+                </c-col>
+
+                <!-- Contraseña -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="passwordHash" class="form-label">Contraseña</label>
+                  <p-password id="passwordHash" formControlName="password" autocomplete="new-password"
+                    placeholder="Contraseña" style="width:100%"
+                    [invalid]="RegistroForm.get('password')?.invalid && RegistroForm.get('password')?.touched">
+                  </p-password>
+                  @if (RegistroForm.get('password')?.errors?.['required'] && RegistroForm.get('password')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Asigne una contraseña a la cuenta.</p-message>
+                  }
+                  @if (RegistroForm.get('password')?.errors?.['passwordStrength'] && RegistroForm.get('password')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Debe contener número, letra, mayúscula y carácter especial.</p-message>
+                  }
+                </c-col>
+
+                <!-- Confirmar Contraseña -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="passwordConfirm" class="form-label">Confirme Contraseña</label>
+                  <p-password id="passwordConfirm" formControlName="passwordConfirm" autocomplete="new-password"
+                    placeholder="Confirme Contraseña" style="width:100%"
+                    [invalid]="(RegistroForm.get('passwordConfirm')?.invalid && RegistroForm.get('passwordConfirm')?.touched) ||
+                               (RegistroForm.errors?.['passwordCoincide'] && RegistroForm.get('passwordConfirm')?.touched)">
+                  </p-password>
+                  @if (RegistroForm.get('passwordConfirm')?.errors?.['required'] && RegistroForm.get('passwordConfirm')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">Asigne una contraseña a la cuenta.</p-message>
+                  }
+                  @if (RegistroForm.errors?.['passwordCoincide'] && RegistroForm.get('passwordConfirm')?.touched) {
+                    <p-message severity="error" size="small" variant="simple">La contraseña de confirmación no coincide.</p-message>
+                  }
+                </c-col>
+
+              </c-row>
+            </p-fieldset>
+
+            <!-- ── Bloque 2: Información Personal ── -->
+            <p-fieldset legend="Información Personal" [toggleable]="false" styleClass="mb-4">
+              <c-row>
+
+                <!-- Nombres -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="nombres" class="form-label">Nombres</label>
+                  <input id="nombres" pInputText formControlName="nombres" type="text"
+                    placeholder="Nombres" style="width:100%" [invalid]="isInvalid('nombres')" />
+                  <p-message *ngIf="isInvalid('nombres')" severity="error" size="small" variant="simple">Se requiere ingresar nombres.</p-message>
+                </c-col>
+
+                <!-- Apellidos -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="apellidos" class="form-label">Apellidos</label>
+                  <input id="apellidos" pInputText formControlName="apellidos" type="text"
+                    placeholder="Apellidos" style="width:100%" [invalid]="isInvalid('apellidos')" />
+                  <p-message *ngIf="isInvalid('apellidos')" severity="error" size="small" variant="simple">Se requiere ingresar apellidos.</p-message>
+                </c-col>
+
+                <!-- Tipo Identificación -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="tipoIdentificacion" class="form-label">Tipo de Identificación</label>
+                  <p-select formControlName="tipoIdentificacion" id="tipoIdentificacion"
+                    [options]="tiposIdentificacion" optionLabel="label"
+                    placeholder="Seleccione tipo identificacion"
+                    (onChange)="onSeleccionarDocumento()"
+                    [invalid]="isInvalid('tipoIdentificacion')"
+                    style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tipoIdentificacion')" severity="error" size="small" variant="simple">Se requiere ingresar tipo de identificación.</p-message>
+                </c-col>
+
+                <!-- N° Documento -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="identificacion" class="form-label">N° Documento</label>
+                  <p-inputnumber id="identificacion" formControlName="identificacion"
+                    placeholder="N° Documento" style="width:100%"
+                    [invalid]="isInvalid('identificacion')" />
+                  <p-message *ngIf="isInvalid('identificacion')" severity="error" size="small" variant="simple">Ingrese numero de identificación.</p-message>
+                </c-col>
+
+                <!-- Teléfono -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="telefono" class="form-label">Numero Teléfono</label>
+                  <p-inputnumber id="telefono" formControlName="telefono"
+                    placeholder="Numero Teléfono" style="width:100%"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [invalid]="isInvalid('telefono')" />
+                  <p-message *ngIf="isInvalid('telefono')" severity="error" size="small" variant="simple">Se requiere ingresar numero telefonico.</p-message>
+                </c-col>
+
+              </c-row>
+            </p-fieldset>
+
+            <!-- ── Bloque 3: Caracterización del Usuario ── -->
+            <p-fieldset legend="Caracterización del Usuario" [toggleable]="false" styleClass="mb-4">
+              <c-row>
+
+                <!-- Tipo Usuario -->
+                <c-col [xs]="12" [md]="6" class="mb-3">
+                  <label for="tipoUsuario" class="form-label">Tipo de Usuario</label>
+                  <p-select formControlName="tipoUsuario" id="tipoUsuario"
+                    [options]="tiposUsuario" optionLabel="label"
+                    (onChange)="onSeleccionarTipoUsuario()"
+                    placeholder="Seleccione tipo usuario"
+                    [invalid]="isInvalid('tipoUsuario')"
+                    style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tipoUsuario')" severity="error" size="small" variant="simple">Seleccione Tipo de Usuario.</p-message>
+                </c-col>
+
+                <!-- Nivel Central: Equipo de Trabajo -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esNivelCentral">
+                  <label for="equipoTrabajo" class="form-label">Equipo de Trabajo</label>
+                  <p-select id="equipoTrabajo" formControlName="equipoTrabajo"
+                    [options]="equiposTrabajo" optionLabel="label"
+                    placeholder="Seleccione equipo de trabajo"
+                    [invalid]="isInvalid('equipoTrabajo')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('equipoTrabajo')" severity="error" size="small" variant="simple">Seleccione Equipo de Trabajo.</p-message>
+                </c-col>
+
+                <!-- Grupo de Trabajo -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="requiereGrupoTrabajo">
+                  <label for="grupoTrabajo" class="form-label">Grupo de Trabajo</label>
+                  <p-select id="grupoTrabajo" formControlName="grupoTrabajo"
+                    [options]="opcionesGrupoTrabajo" optionLabel="label"
+                    placeholder="Seleccione grupo de trabajo"
+                    [invalid]="isInvalid('grupoTrabajo')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('grupoTrabajo')" severity="error" size="small" variant="simple">Seleccione Grupo de Trabajo.</p-message>
+                </c-col>
+
+                <!-- Cargo -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esNivelCentral">
+                  <label for="cargo" class="form-label">Cargo</label>
+                  <p-select id="cargo" formControlName="cargo"
+                    [options]="cargos" optionLabel="label"
+                    placeholder="Seleccione cargo" style="width:100%">
+                  </p-select>
+                </c-col>
+
+                <!-- Gestor Territorial -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esGestorTerritorial">
+                  <label for="equipoTrabajo" class="form-label">Equipo de Trabajo</label>
+                  <p-select id="equipoTrabajo" formControlName="equipoTrabajo"
+                    [options]="equiposGestorTerritorialFiltrados" optionLabel="label"
+                    placeholder="Seleccione equipo de trabajo"
+                    [invalid]="isInvalid('equipoTrabajo')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('equipoTrabajo')" severity="error" size="small" variant="simple">Seleccione Equipo de Trabajo.</p-message>
+                </c-col>
+
+                <!-- Institución Educativa: Localidad -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esInstitucionEducativa">
+                  <label for="localidad" class="form-label">Localidad</label>
+                  <p-select id="localidad" formControlName="localidad"
+                    [options]="localidades" optionLabel="label"
+                    placeholder="Seleccione localidad"
+                    [invalid]="isInvalid('localidad')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('localidad')" severity="error" size="small" variant="simple">Seleccione la Localidad.</p-message>
+                </c-col>
+
+                <!-- Institución Educativa: Colegio -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esInstitucionEducativa">
+                  <label for="colegio" class="form-label">Colegios</label>
+                  <p-select id="colegio" formControlName="colegio"
+                    [options]="colegios" optionLabel="label"
+                    placeholder="Seleccione colegio"
+                    [invalid]="isInvalid('colegio')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('colegio')" severity="error" size="small" variant="simple">Seleccione el Colegio.</p-message>
+                </c-col>
+
+                <!-- Interventoría: Firma -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esInterventoria">
+                  <label for="tercero" class="form-label">Firma Interventora</label>
+                  <p-select id="tercero" formControlName="tercero"
+                    [options]="firmasInterventoria" optionLabel="label"
+                    placeholder="Seleccione firma interventora"
+                    [invalid]="isInvalid('tercero')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tercero')" severity="error" size="small" variant="simple">Seleccione la firma interventora.</p-message>
+                </c-col>
+
+                <!-- Interventoría: Grupo de Trabajo -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esInterventoria">
+                  <label for="grupoTrabajo" class="form-label">Grupo de Trabajo</label>
+                  <p-select id="grupoTrabajo" formControlName="grupoTrabajo"
+                    [options]="opcionesGrupoTrabajo" optionLabel="label"
+                    placeholder="Seleccione grupo de trabajo"
+                    [invalid]="isInvalid('grupoTrabajo')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('grupoTrabajo')" severity="error" size="small" variant="simple">Seleccione el grupo de trabajo.</p-message>
+                </c-col>
+
+                <!-- Operador Logístico -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esOperadorLogistico">
+                  <label for="tercero" class="form-label">Operador Logístico</label>
+                  <p-select id="tercero" formControlName="tercero"
+                    [options]="operadoresLogisticosCatalogo" optionLabel="label"
+                    placeholder="Seleccione operador logístico"
+                    [invalid]="isInvalid('tercero')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tercero')" severity="error" size="small" variant="simple">Seleccione el operador logístico.</p-message>
+                </c-col>
+
+                <!-- Proveedor Alimentos -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esProveedorAlimentos">
+                  <label for="tercero" class="form-label">Proveedor de Alimentos</label>
+                  <p-select id="tercero" formControlName="tercero"
+                    [options]="proveedoresAlimentosCatalogo" optionLabel="label"
+                    placeholder="Seleccione proveedor de alimentos"
+                    [invalid]="isInvalid('tercero')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tercero')" severity="error" size="small" variant="simple">Seleccione el proveedor de alimentos.</p-message>
+                </c-col>
+
+                <!-- Proveedor Transporte -->
+                <c-col [xs]="12" [md]="6" class="mb-3" *ngIf="esProveedorTransporte">
+                  <label for="tercero" class="form-label">Proveedor de Transporte</label>
+                  <p-select id="tercero" formControlName="tercero"
+                    [options]="proveedoresTransporteCatalogo" optionLabel="label"
+                    placeholder="Seleccione proveedor de transporte"
+                    [invalid]="isInvalid('tercero')" style="width:100%">
+                  </p-select>
+                  <p-message *ngIf="isInvalid('tercero')" severity="error" size="small" variant="simple">Seleccione el proveedor de transporte.</p-message>
+                </c-col>
+
+              </c-row>
+            </p-fieldset>
+
+            <!-- Botones -->
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="mt-2">
+              <button
+                type="button"
+                pButton
+                label="Volver al Login"
+                icon="pi pi-arrow-left"
+                class="p-button-secondary"
+                [routerLink]="['/login']">
+              </button>
+              <p-button
+                type="submit"
+                label="Registrarse"
+                icon="pi pi-check"
+                iconPos="right" />
+            </div>
+
+          </form>
+
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</c-container>
+
+<app-footer-institucional></app-footer-institucional>

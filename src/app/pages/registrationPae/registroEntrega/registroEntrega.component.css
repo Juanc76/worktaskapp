@@ -1,0 +1,276 @@
+:host {
+  display: block;
+}
+
+ion-content {
+  --background: #f4f6f8;
+}
+
+ion-content.page-content {
+  --padding-bottom: calc(110px + env(safe-area-inset-bottom));
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+ion-modal.ion-modal-registro-entrega-pae {
+  --width: 100vw;
+  --height: 100vh;
+  --border-radius: 0;
+  --box-shadow: none; 
+}
+
+ion-modal.ion-modal-registro-entrega-pae::part(content) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  background: #ffffff;
+}
+ion-buttons ion-button {
+  --color: #000000 !important;
+  color: #000000 !important;
+}
+
+.modal-actions {
+  --p-button-primary-background: var(--app-primary-color);
+  --p-button-primary-border-color: var(--app-primary-color);
+  --p-button-primary-color: #ffffff;
+  --p-button-primary-hover-background: var(--app-primary-activated);
+  --p-button-primary-hover-border-color: var(--app-primary-activated);
+}
+
+/* Contenedor del formulario para agregar punto de entrega */
+.modal-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-form-container {
+  background-color: #ffffff !important;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.subtitle-text {
+  font-size: 16px;
+  color: var(--app-primary-activated) ;
+  padding: 5px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-end;
+  background: #fffefe;
+}
+
+.sync-status {
+  width: calc(100% - 20px);
+  margin: 8px 10px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.sync-status-text {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+}
+
+.sync-status > * {
+  width: 100%;
+}
+
+ion-card-content{
+  padding:14px 16px;
+}
+.entrega-card {
+  --background: #ffffff;
+  border-radius: 16px;
+  margin: 10px;
+   margin-bottom: 14px;
+  box-shadow:
+  0 2px 6px rgba(0,0,0,0.05),
+  0 8px 20px rgba(0,0,0,0.04);
+  transition: transform .15s ease;
+}
+
+.entrega-card:active{
+  transform: scale(.98);
+}
+
+.entrega-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:14px;
+  bottom:14px;
+  width:4px;
+  border-radius:4px;
+}
+
+.sync-ok::before{
+  background:#2ecc71;
+}
+.sync-pending::before{
+  background:#e6b76b;
+}
+
+.card-header{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.chip-fecha{
+  width:max-content;
+  max-width:100%;
+  white-space:normal;
+  line-height:1.3;
+  align-items:flex-start;
+  background:#f4f4f4;
+  border:1px solid #e0e0e0;
+  color:#111;
+}
+
+.registro-id{
+  box-sizing:border-box;
+  min-width:0;
+  width:100%;
+  padding:6px 10px;
+  border:1px solid #eeeeee;
+  border-radius:10px;
+  background:#fafafa;
+  font-size:12px;
+  color:#666;
+  line-height:1.2;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.info-grid{
+  display:flex;
+  flex-direction: column;
+  gap:12px;
+  margin-top:10px;
+}
+
+.info-block{
+  min-width:0;
+}
+
+.info-block.colegio{
+
+width: 100%;
+}
+
+.info-block.sede{
+ width: 100%;
+}
+
+.info-line{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  font-size:14px;
+  font-weight:600;
+  color:#1a1a1a;
+}
+
+.info-line .name{
+  display:block;
+  white-space:normal;
+  line-height:1.3;
+}
+
+.info-line i{
+  font-size:14px;
+  color:#444;
+  margin-top:2px;
+}
+
+.info-sub{
+  font-size:12px;
+  color:#666;
+  margin-left:22px;
+  margin-top:2px;
+}
+
+
+.chips{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  margin-top:8px;
+}
+.chip{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:500;
+  padding:4px 10px;
+  background:#f4f4f4;
+  border:1px solid #e0e0e0;
+  border-radius:14px;
+  color:#111;
+}
+
+.chip i{
+  font-size:12px;
+  color:#444;
+  font-weight:700;
+}
+.chip-sitio{
+   white-space:normal;
+  line-height:1.3;
+  align-items:flex-start;
+}
+.chip-proyecto{
+  max-width:65%;
+  white-space:normal;
+  line-height:1.3;
+  align-items:flex-start;
+}
+
+.sync-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:8px;
+}
+
+.sync{
+  margin-top:8px;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  color:#269b57;
+}
+
+.ver-registro{
+  margin-left:auto;
+  font-size:14px;
+  font-weight:600;
+  color:var(--app-primary-activated);
+  text-decoration:none;
+}
+

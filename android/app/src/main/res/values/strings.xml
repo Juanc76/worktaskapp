@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">seddbeapp</string>
+    <string name="title_activity_main">seddbeapp</string>
+    <string name="package_name">sed.edu.co.dbeapp</string>
+    <string name="custom_url_scheme">sed.edu.co.dbeapp</string>
+
+    <string name="capacitor_background_geolocation_notification_channel_name">
+        Background Tracking
+    </string>
+
+    <string name="capacitor_background_geolocation_notification_title">
+        Ruta Escolar en Progreso
+    </string>
+
+    <string name="capacitor_background_geolocation_action_settings">
+        Abrir Ajustes
+    </string>
+
+    <string name="capacitor_background_geolocation_notification_icon">
+        @mipmap/ic_launcher
+    </string>
+
+    <string name="capacitor_background_geolocation_notification_color">
+        #0000FF
+    </string>
+
+    <string name="seddbe_background_geolocation_location_sync_endpoint">
+        https://admin.sedsap.com/seddbeapp/api/dbe/synApp/syncRegistroLocationRutaPME
+    </string>
+
+    <string name="seddbe_background_geolocation_auth_refresh_endpoint">
+        https://admin.sedsap.com/seddbeapp/api/auth/refresh
+    </string>
+</resources>
